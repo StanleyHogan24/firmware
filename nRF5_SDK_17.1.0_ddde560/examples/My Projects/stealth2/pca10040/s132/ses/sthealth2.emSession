@@ -1,0 +1,56 @@
+<!DOCTYPE CrossStudio_Session_File>
+<session>
+ <Bookmarks/>
+ <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
+ </Breakpoints>
+ <ExecutionProfileWindow/>
+ <FrameBuffer/>
+ <Memory1/>
+ <Memory2/>
+ <Memory3/>
+ <Memory4/>
+ <Project>
+  <ProjectSessionItem path="blinky_pca10040_s132"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;Application"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;Board Definition"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;nRF_Drivers"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;nRF_Libraries"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;nRF_Log"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;nRF_SoftDevice"/>
+  <ProjectSessionItem path="blinky_pca10040_s132;sthealth2;Segger Startup Files"/>
+ </Project>
+ <Register1/>
+ <Register2/>
+ <Register3/>
+ <Register4/>
+ <Threads>
+  <ThreadsWindow showLists=""/>
+ </Threads>
+ <TraceWindow>
+  <Trace enabled="Yes"/>
+ </TraceWindow>
+ <Watch1>
+  <Watches active="1" update="Never"/>
+ </Watch1>
+ <Watch2>
+  <Watches active="0" update="Never"/>
+ </Watch2>
+ <Watch3>
+  <Watches active="0" update="Never"/>
+ </Watch3>
+ <Watch4>
+  <Watches active="0" update="Never"/>
+ </Watch4>
+ <Files>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="71" useTextEdit="1" path="../../../../../../components/ble/ble_advertising/ble_advertising.h" left="0" top="71" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="78" useTextEdit="1" path="bluetooth.c" left="0" top="55" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="23" y="46" useTextEdit="1" path="sdk_config.h" left="0" top="46" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="12" useTextEdit="1" path="bluetooth.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="36" y="49" useTextEdit="1" path="../../../../../../components/libraries/bsp/bsp_btn_ble.c" left="0" top="28" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="51" y="26" useTextEdit="1" path="main.c" left="0" selected="1" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="164" useTextEdit="1" path="../../../../../../components/libraries/bsp/bsp.c" left="0" top="146" codecName="Default"/>
+ </Files>
+ <EMStudioWindow activeProject="sthealth2" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/Users/king/Documents/Documents - Mac/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/libraries/bsp" debugSearchPath="" autoConnectCapabilities="3199"/>
+</session>
