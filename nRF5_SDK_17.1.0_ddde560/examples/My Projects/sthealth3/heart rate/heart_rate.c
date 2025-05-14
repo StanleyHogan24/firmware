@@ -26,7 +26,7 @@
 // Filter Parameters for Signal Conditioning:
 // The MAX30101’s raw output (after its onboard processing) can be noisy. These filters help isolate the pulsatile component.
 // LPF_ALPHA and HPF_ALPHA are chosen empirically (range 0 < alpha < 1).
-#define LPF_ALPHA               0.05f  // Low-pass filter coefficient.
+#define LPF_ALPHA               0.5f  // Low-pass filter coefficient.
 #define HPF_ALPHA               0.1f  // High-pass filter coefficient.
 
 // Dynamic Threshold Parameters for Peak Detection:
@@ -64,7 +64,7 @@ static float s_prev_input = 0.0f; // Previous input sample for the high-pass fil
 static int8_t s_prevSlopeSign = 0;
 
 // Filter state variables for the low–pass and high–pass filters.
-static float lp_filtered = 1400000.0f; // Low-pass filter state, starting near expected baseline.
+static float lp_filtered = 12000.0f; // Low-pass filter state, starting near expected baseline.
 static float hp_filtered = 0.0f;     // High-pass filter state.
 
 // Moving average buffer and related variables for dynamic thresholding.
@@ -100,7 +100,7 @@ void heart_rate_init(void)
     // Initialize filter states:
     // lp_filtered is set to an initial baseline (here, 1000000.0f) to reflect the expected sensor reading.
     // hp_filtered is initialized to zero since there is no initial high-frequency component.
-    lp_filtered = 1400000.0f;
+    lp_filtered = 12000.0f;
     hp_filtered = 0.0f;
     s_prev_input = lp_filtered;
     
@@ -128,6 +128,7 @@ void heart_rate_init(void)
  */
 uint16_t heart_rate_update(float newSample)
 {
+    NRF_LOG_INFO(">> Entered heart_rate_udpate\r\n");
     s_sampleCounter++;
     NRF_LOG_INFO("HR_UPDATE: Sample Counter: %u\r\n", s_sampleCounter);
     
@@ -162,7 +163,7 @@ uint16_t heart_rate_update(float newSample)
         hp_filtered = 0.0f;
         s_prev_input = lp_filtered;
     }
-    NRF_LOG_DEBUG("High-Pass Filtered Value:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(hp_filtered));
+    NRF_LOG_INFO("High-Pass Filtered Value:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(hp_filtered));
     
     // Update the previous input for use in the next HPF calculation.
     s_prev_input = lp_filtered;
@@ -235,7 +236,7 @@ uint16_t heart_rate_update(float newSample)
         NRF_LOG_ERROR("HR_UPDATE: Dynamic Threshold resulted in NaN or INF. Resetting to moving average.\r\n");
         dynamic_threshold = moving_avg;
     }
-    NRF_LOG_DEBUG("Dynamic Threshold:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(dynamic_threshold));
+    NRF_LOG_INFO("Dynamic Threshold:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(dynamic_threshold));
     
     // Step 6: Peak Detection
     // A peak is detected when:

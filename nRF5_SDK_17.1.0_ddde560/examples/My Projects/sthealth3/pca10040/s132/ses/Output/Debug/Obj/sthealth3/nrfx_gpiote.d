@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/nrfx_gpiote.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/modules/nrfx/drivers/src/nrfx_gpiote.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/modules/nrfx/drivers/src/nrfx_gpiote.c \
  ../../../../../../modules/nrfx/nrfx.h \
  ../../../../../../integration/nrfx/nrfx_config.h ../config/sdk_config.h \
  ../../../../../../modules/nrfx/drivers/nrfx_common.h \

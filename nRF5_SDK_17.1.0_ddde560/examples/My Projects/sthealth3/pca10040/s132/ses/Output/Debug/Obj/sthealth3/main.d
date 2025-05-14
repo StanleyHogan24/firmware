@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/main.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/main.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/main.c \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_ConfDefaults.h \

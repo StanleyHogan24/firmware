@@ -1,6 +1,6 @@
 Output/Debug/Obj/sthealth3/ble_conn_state.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/common/ble_conn_state.c \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/common/ble_conn_state.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/common/ble_conn_state.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/common/ble_conn_state.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdbool.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \

@@ -1,6 +1,6 @@
 Output/Debug/Obj/sthealth3/heart_rate.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/heart\ rate/heart_rate.c \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/heart\ rate/heart_rate.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/heart\ rate/heart_rate.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/heart\ rate/heart_rate.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_ConfDefaults.h \

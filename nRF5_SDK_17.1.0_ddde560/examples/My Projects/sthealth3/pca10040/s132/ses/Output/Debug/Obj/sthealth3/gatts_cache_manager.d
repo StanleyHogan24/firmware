@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/gatts_cache_manager.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/gatts_cache_manager.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/gatts_cache_manager.c \
  ../../../../../../components/libraries/util/sdk_common.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
@@ -32,7 +32,7 @@ Output/Debug/Obj/sthealth3/gatts_cache_manager.o: \
  ../../../../../../components/softdevice/s132/headers/nrf_svc.h \
  ../../../../../../components/libraries/util/sdk_macros.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/gatts_cache_manager.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/gatts_cache_manager.h \
  ../../../../../../components/libraries/util/sdk_errors.h \
  ../../../../../../components/softdevice/s132/headers/ble.h \
  ../../../../../../components/softdevice/s132/headers/nrf_svc.h \
@@ -47,7 +47,7 @@ Output/Debug/Obj/sthealth3/gatts_cache_manager.o: \
  ../../../../../../components/softdevice/s132/headers/ble_gattc.h \
  ../../../../../../components/softdevice/s132/headers/ble_gatts.h \
  ../../../../../../components/softdevice/s132/headers/ble_gap.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_manager_types.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_manager_types.h \
  ../../../../../../components/softdevice/s132/headers/ble_hci.h \
  ../../../../../../components/ble/common/ble_gatt_db.h \
  ../../../../../../components/softdevice/s132/headers/ble_gattc.h \
@@ -60,10 +60,10 @@ Output/Debug/Obj/sthealth3/gatts_cache_manager.o: \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdio.h \
  ../../../../../../components/libraries/util/app_error_weak.h \
  ../../../../../../components/softdevice/s132/headers/ble_err.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_manager_internal.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_database.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_data_storage.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/id_manager.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_manager_internal.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_database.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/peer_data_storage.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/id_manager.h \
  ../../../../../../components/libraries/log/nrf_log.h \
  ../../../../../../components/libraries/experimental_section_vars/nrf_section.h \
  ../../../../../../components/libraries/util/nordic_common.h \

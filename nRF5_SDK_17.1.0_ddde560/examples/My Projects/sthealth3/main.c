@@ -187,9 +187,14 @@ int main(void)
     // Initialize board support (PCA10040).
     bsp_board_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS);
 
+    // Initialize the shared TWI (I2C) interface used by all sensors.
+    twi_master_init();
+
      // Initialize app_timer library.
     err_code = app_timer_init();
     APP_ERROR_CHECK(err_code);
+
+    uint32_t red_led = 0, ir_led = 0, green_led=0;
 
 /* COMMENTING OUT BLUETOOTH INITIALIZATION FOR NOW... 
 
@@ -212,6 +217,7 @@ int main(void)
     // Start advertising.
     advertising_start();
   */
+    
     // Initialize heart rate module.
     heart_rate_init();
     
@@ -228,23 +234,24 @@ int main(void)
     // Main loop: read sensor data, update BPM, and send BLE notifications.
     while (true)
     {
-        uint32_t red_led = 0, ir_led = 0;
+        
         
         // Read sensor data from MAX30101.
-        if (max30101_read_fifo(&red_led, &ir_led))
+        if (max30101_read_fifo(&green_led, &red_led, &ir_led))
         {
-            NRF_LOG_INFO("MAX30101 Read: Red=%u", red_led);
-            NRF_LOG_INFO("MAX30101 Read: IR=%u", ir_led);
+            NRF_LOG_DEBUG("MAX30101 Read: Red=%u", red_led);
+            NRF_LOG_DEBUG("MAX30101 Read: IR=%u", ir_led);
+            NRF_LOG_DEBUG("MAX30101 Read: Green=%u", green_led);
             
             // For heart rate detection in SpO₂ mode, we now use the red LED sample.
-            float raw_red = (float)red_led;
+            float raw_green = (float)green_led;
     
-            uint16_t bpm = heart_rate_update(raw_red);
+            uint16_t bpm = heart_rate_update(raw_green);
             
             static uint16_t previous_bpm = 0;
             if (bpm != previous_bpm && bpm != 0)
             {
-                NRF_LOG_DEBUG("Heart Rate (Red LED): %u BPM", bpm);
+                NRF_LOG_DEBUG("Heart Rate (Green LED): %u BPM", bpm);
                 previous_bpm = bpm;
                
                

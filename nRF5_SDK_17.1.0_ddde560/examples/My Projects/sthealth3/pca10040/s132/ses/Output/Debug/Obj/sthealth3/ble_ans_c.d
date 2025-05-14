@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/ble_ans_c.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/ble_services/ble_ans_c/ble_ans_c.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/ble_services/ble_ans_c/ble_ans_c.c \
  ../../../../../../components/libraries/util/sdk_common.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
@@ -32,7 +32,7 @@ Output/Debug/Obj/sthealth3/ble_ans_c.o: \
  ../../../../../../components/softdevice/s132/headers/nrf_svc.h \
  ../../../../../../components/libraries/util/sdk_macros.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/ble_services/ble_ans_c/ble_ans_c.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/ble_services/ble_ans_c/ble_ans_c.h \
  ../../../../../../components/softdevice/s132/headers/ble.h \
  ../../../../../../components/softdevice/s132/headers/nrf_svc.h \
  ../../../../../../components/softdevice/s132/headers/nrf_error.h \

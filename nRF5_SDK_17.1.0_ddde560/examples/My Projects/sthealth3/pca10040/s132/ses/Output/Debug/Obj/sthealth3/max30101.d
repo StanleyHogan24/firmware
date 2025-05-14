@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/max30101.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/max30101/max30101.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/max30101/max30101.c \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdbool.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
@@ -61,7 +61,8 @@ Output/Debug/Obj/sthealth3/max30101.o: \
  ../../../../../../modules/nrfx/hal/nrf_twim.h \
  ../../../../../../modules/nrfx/drivers/include/nrfx_twi.h \
  ../../../../../../modules/nrfx/hal/nrf_twi.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/max30101/max30101.h \
+ ../../../../../../components/libraries/delay/nrf_delay.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/max30101/max30101.h \
  ../../../../../../examples/My\ Projects/sthealth3/Common\ TWI/common_twi.h \
  ../../../../../../components/libraries/log/nrf_log.h \
  ../../../../../../components/libraries/util/sdk_common.h \

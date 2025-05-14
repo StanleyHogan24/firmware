@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/auth_status_tracker.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/auth_status_tracker.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/components/ble/peer_manager/auth_status_tracker.c \
  ../../../../../../components/libraries/util/sdk_common.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \

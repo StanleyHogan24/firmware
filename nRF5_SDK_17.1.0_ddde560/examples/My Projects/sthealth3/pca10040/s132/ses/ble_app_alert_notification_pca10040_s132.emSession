@@ -2,6 +2,7 @@
 <session>
  <Bookmarks/>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="458" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" stopAll="false" group="Breakpoints" type="Breakpoint" state="2" filename="../../../../../../modules/nrfx/hal/nrf_uarte.h" useHWbreakpoint="false"/>
   <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
@@ -57,12 +58,9 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="58" y="25" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="41" y="86" useTextEdit="1" path="../../../heart rate/heart_rate.c" left="0" top="67" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../heart rate/heart_rate.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="6" y="11427" useTextEdit="1" path="../config/sdk_config.h" left="0" top="11427" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="47" useTextEdit="1" path="../../../../../../components/max30101/max30101.c" left="0" top="47" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../../../../components/max30101/max30101.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="37" y="31" useTextEdit="1" path="../../../heart rate/heart_rate.c" left="0" top="9" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="181" useTextEdit="1" path="../../../main.c" left="0" top="159" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="457" useTextEdit="1" path="../../../../../../modules/nrfx/hal/nrf_uarte.h" left="0" selected="1" top="435" codecName="Default"/>
   <SessionOpenFile windowGroup="HUD {bd77897d-c490-4df4-8bf3-d240584aa1b8} Left" x="0" y="0" useTextEdit="1" path="heart_rate.h" left="0" top="0" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="sthealth3" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/Users/king/Desktop/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/components/libraries/timer" debugSearchPath="" autoConnectCapabilities="3711"/>

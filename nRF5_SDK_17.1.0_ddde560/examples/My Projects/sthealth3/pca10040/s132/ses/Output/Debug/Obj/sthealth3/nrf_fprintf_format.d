@@ -1,5 +1,5 @@
 Output/Debug/Obj/sthealth3/nrf_fprintf_format.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf_format.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf_format.c \
  ../../../../../../components/libraries/util/sdk_common.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
@@ -34,5 +34,5 @@ Output/Debug/Obj/sthealth3/nrf_fprintf_format.o: \
  ../../../../../../components/libraries/util/nrf_assert.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdarg.h \
  ../../../../../../components/libraries/util/nrf_assert.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf.h \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf_format.h
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/external/fprintf/nrf_fprintf_format.h

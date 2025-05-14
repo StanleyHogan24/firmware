@@ -198,8 +198,9 @@
     <file file_name="../../../Common TWI/common_twi.h" />
     <file file_name="globals.h" />
     <file file_name="heart_rate.h" />
-    <file file_name="../../../../../../components/i2c_scanner/i2c_scanner.h" />
     <file file_name="../../../../../../components/max30101/i2c_scanner.h" />
+    <file file_name="../../../../../../components/i2c_scanner/i2c_scanner.h" />
     <file file_name="../../../../../../modules/nrfx/drivers/src/nrfx_timer.c" />
+    <file file_name="test.c" />
   </project>
 </solution>

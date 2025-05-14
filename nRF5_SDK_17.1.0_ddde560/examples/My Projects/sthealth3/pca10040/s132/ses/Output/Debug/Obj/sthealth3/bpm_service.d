@@ -1,6 +1,6 @@
 Output/Debug/Obj/sthealth3/bpm_service.o: \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/pca10040/s132/ses/bpm_service.c \
- /Users/king/Desktop/NRF\ Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/pca10040/s132/ses/bpm_service.h \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/pca10040/s132/ses/bpm_service.c \
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/pca10040/s132/ses/bpm_service.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdint.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_ConfDefaults.h \

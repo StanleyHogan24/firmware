@@ -2,26 +2,28 @@
 #include <stdint.h>
 #include <string.h>
 #include "nrf_drv_twi.h"
-#include "max30101.h"  // Your header file with definitions for MAX30101 registers and constants
+#include "nrf_delay.h"
+#include "max30101.h"
 #include "common_twi.h"
 #include "nrf_log.h"
 
+//---------------------------------------------------------------------------
+// TWI instance and transfer completion flag provided by common_twi module
+extern const nrf_drv_twi_t m_twi;
+extern volatile bool m_xfer_done;
+extern void twi_handler(nrf_drv_twi_evt_t const * p_event, void * p_context);
 
-
-//*****************************************************************************
-// TWI Master Initialization (Used by all I2C devices)
-//*****************************************************************************
+//---------------------------------------------------------------------------
+// TWI Master Initialization
 void twi_master_init(void)
 {
     ret_code_t err_code;
-
-    // Configure the settings for TWI communication  
     const nrf_drv_twi_config_t twi_config = {
-       .scl                = TWI_SCL_M,               // Define in your board configuration
-       .sda                = TWI_SDA_M,               // Define in your board configuration
-       .frequency          = NRF_DRV_TWI_FREQ_400K,   // 400KHz communication speed
-       .interrupt_priority = APP_IRQ_PRIORITY_HIGH,   // Adjust based on your application
-       .clear_bus_init     = true                    // Do not clear bus automatically
+        .scl                = TWI_SCL_PIN,
+        .sda                = TWI_SDA_PIN,
+        .frequency          = NRF_DRV_TWI_FREQ_400K,
+        .interrupt_priority = APP_IRQ_PRIORITY_HIGH,
+        .clear_bus_init     = true
     };
 
     err_code = nrf_drv_twi_init(&m_twi, &twi_config, twi_handler, NULL);
@@ -29,130 +31,97 @@ void twi_master_init(void)
     nrf_drv_twi_enable(&m_twi);
 }
 
-//*****************************************************************************
+//---------------------------------------------------------------------------
 // MAX30101 Register Write
-// Writes a single byte to the specified register address
-//*****************************************************************************
 bool max30101_register_write(uint8_t register_address, uint8_t value)
 {
     ret_code_t err_code;
-    // Transmit buffer: register address + data byte
-    uint8_t tx_buf[2];
-    tx_buf[0] = register_address;
-    tx_buf[1] = value;
+    uint8_t tx_buf[2] = { register_address, value };
 
-    m_xfer_done = false;    
+    m_xfer_done = false;
     err_code = nrf_drv_twi_tx(&m_twi, MAX30101_I2C_ADDRESS, tx_buf, sizeof(tx_buf), false);
-    
-    // Wait until transfer completes
-    while (m_xfer_done == false) { /* Optionally add timeout */ }
+    while (!m_xfer_done) {}
 
-    if (NRF_SUCCESS != err_code)
-    {
-        return false;
-    }
-    
-    return true;
+    return (err_code == NRF_SUCCESS);
 }
 
-//*****************************************************************************
+//---------------------------------------------------------------------------
 // MAX30101 Register Read
-// Reads number_of_bytes from the specified register into destination buffer
-//*****************************************************************************
-bool max30101_register_read(uint8_t register_address, uint8_t * destination, uint8_t number_of_bytes)
+bool max30101_register_read(uint8_t register_address, uint8_t *destination, uint8_t number_of_bytes)
 {
     ret_code_t err_code;
 
     m_xfer_done = false;
-    // First, send the register address (without releasing the bus)
     err_code = nrf_drv_twi_tx(&m_twi, MAX30101_I2C_ADDRESS, &register_address, 1, true);
-    while (m_xfer_done == false) { /* Optionally add timeout */ }
-    
-    if (NRF_SUCCESS != err_code)
-    {
-        return false;
-    }
-    
-    m_xfer_done = false;
-    // Then read the data from that register
-    err_code = nrf_drv_twi_rx(&m_twi, MAX30101_I2C_ADDRESS, destination, number_of_bytes);
-    while (m_xfer_done == false) { /* Optionally add timeout */ }
-    
-    if (NRF_SUCCESS != err_code)
-    {
-        return false;
-    }
+    while (!m_xfer_done) {}
+    if (err_code != NRF_SUCCESS) return false;
 
-    return true;
+    m_xfer_done = false;
+    err_code = nrf_drv_twi_rx(&m_twi, MAX30101_I2C_ADDRESS, destination, number_of_bytes);
+    while (!m_xfer_done) {}
+
+    return (err_code == NRF_SUCCESS);
 }
 
-//*****************************************************************************
-// MAX30101 Initialization
-// Configures the sensor registers for SpO2/Heart Rate mode.
-//*****************************************************************************
+//---------------------------------------------------------------------------
+// MAX30101 Initialization with multi-LED support
 bool max30101_init(void)
 {
-    bool transfer_succeeded = true;
+    bool success = true;
 
-    // Reset the sensor (if available), clear FIFO pointers etc.
-    transfer_succeeded &= max30101_register_write(MAX30101_MODE_CONFIG, MAX30101_RESET);
-    // A delay may be needed here after reset (insert delay_ms() call if required)
+    // Software reset and delay
+    success &= max30101_register_write(MAX30101_MODE_CONFIG, MAX30101_MODE_RESET);
+    nrf_delay_ms(100);
 
+    // Reset FIFO pointers
+    success &= max30101_register_write(MAX30101_FIFO_WR_PTR, 0x00);
+    success &= max30101_register_write(MAX30101_OVF_COUNTER, 0x00);
+    success &= max30101_register_write(MAX30101_FIFO_RD_PTR, 0x00);
 
-    // Clear FIFO pointers: write to FIFO_WR_PTR, OVF_COUNTER, and FIFO_RD_PTR if needed
-    transfer_succeeded &= max30101_register_write(MAX30101_FIFO_WR_PTR, 0x00);
-    transfer_succeeded &= max30101_register_write(MAX30101_OVF_COUNTER, 0x00);
-    transfer_succeeded &= max30101_register_write(MAX30101_FIFO_RD_PTR, 0x00);
+    // Configure FIFO: no averaging, rollover enabled, almost-full threshold
+    success &= max30101_register_write(MAX30101_FIFO_CONFIG, MAX30101_FIFO_CFG);
 
-    // Configure the FIFO: sample averaging, rollover, etc.
-    transfer_succeeded &= max30101_register_write(MAX30101_FIFO_CONFIG, MAX30101_FIFO_CFG);
+    // Enable multi-LED mode
+    success &= max30101_register_write(MAX30101_MODE_CONFIG, MAX30101_MODE_MULTI_LED);
 
-    // Configure the mode: Set to SpO2 mode (or other mode depending on your application)
-    transfer_succeeded &= max30101_register_write(MAX30101_MODE_CONFIG, MAX30101_MODE_SPO2);
+    // Configure SpO2 settings: LED pulse width, sample rate, ADC range
+    success &= max30101_register_write(MAX30101_SPO2_CONFIG, MAX30101_SPO2_CFG);
 
-    // Configure SPO2 settings: ADC range, sample rate, LED pulse width, etc.
-    transfer_succeeded &= max30101_register_write(MAX30101_SPO2_CONFIG, MAX30101_SPO2_CFG);
+    // Set LED drive currents: Red, IR, Green, Ambient
+    success &= max30101_register_write(MAX30101_LED1_PA, MAX30101_LED1_PA_VAL);
+    success &= max30101_register_write(MAX30101_LED2_PA, MAX30101_LED2_PA_VAL);
+    success &= max30101_register_write(MAX30101_LED3_PA, MAX30101_LED3_PA_VAL);
+    success &= max30101_register_write(MAX30101_LED4_PA, MAX30101_LED4_PA_VAL);
 
-    // Set LED pulse amplitudes
-    transfer_succeeded &= max30101_register_write(MAX30101_LED1_PA, MAX30101_LED1_PA_VAL);
-    transfer_succeeded &= max30101_register_write(MAX30101_LED2_PA, MAX30101_LED2_PA_VAL);
-    // (If your design uses a third LED channel, configure it similarly)
+    // Configure LED slot assignments: RED->slot1, IR->slot2, GREEN->slot3, NONE->slot4
+    uint8_t slot_cfg1 = (SLOT_RED_LED   << 0) | (SLOT_IR_LED    << 4);
+    uint8_t slot_cfg2 = (SLOT_GREEN_LED << 0) | (SLOT_NONE      << 4);
+    success &= max30101_register_write(MAX30101_REG_MULTI_LED_MODE1, slot_cfg1);
+    success &= max30101_register_write(MAX30101_REG_MULTI_LED_MODE2, slot_cfg2);
 
-    return transfer_succeeded;
+    return success;
 }
 
-//*****************************************************************************
-// MAX30101 FIFO Data Read
-// Reads one sample (for RED and IR channels) from the FIFO.
-// The MAX30101 returns 3 bytes per LED channel. The sample is 18 bits,
-// so the upper bits of the 3-byte data are used.
-//*****************************************************************************
-bool max30101_read_fifo(uint32_t *red_led, uint32_t *ir_led)
+//---------------------------------------------------------------------------
+// Read FIFO for three LED channels: Red, IR, Green
+bool max30101_read_fifo(uint32_t *green_led, uint32_t *red_led, uint32_t *ir_led)
 {
-    // Assume that the FIFO data is organized so that the sample for each LED is returned sequentially.
-    // Adjust the reading routine based on your datasheet.
-    uint8_t fifo_data[6]; // 2 channels x 3 bytes each (if each sample is 18- or 24-bit)
-    
-    if(!max30101_register_read(MAX30101_FIFO_DATA, fifo_data, sizeof(fifo_data)))
-    {
+    // 3 bytes per slot x 3 active slots = 9 bytes
+    uint8_t fifo_data[9];
+    if (!max30101_register_read(MAX30101_FIFO_DATA, fifo_data, sizeof(fifo_data))) {
         return false;
     }
-    
-    // Example: combine 3 bytes per channel (this depends on your sensor’s data format)
-    *red_led = ((uint32_t)fifo_data[0] << 16) | ((uint32_t)fifo_data[1] << 8) | fifo_data[2];
-    *ir_led   = ((uint32_t)fifo_data[3] << 16) | ((uint32_t)fifo_data[4] << 8) | fifo_data[5];
-    
+
+    // Combine bytes: slot1=RED, slot2=IR, slot3=GREEN
+    *red_led   = ((uint32_t)fifo_data[0] << 16) | ((uint32_t)fifo_data[1] << 8)  | fifo_data[2];
+    *ir_led    = ((uint32_t)fifo_data[3] << 16) | ((uint32_t)fifo_data[4] << 8)  | fifo_data[5];
+    *green_led = ((uint32_t)fifo_data[6] << 16) | ((uint32_t)fifo_data[7] << 8)  | fifo_data[8];
+
     return true;
 }
 
-/**
- * @brief Reset the FIFO pointer and overflow counter.
- *
- * This function clears the FIFO write pointer, overflow counter, and FIFO read pointer registers,
- * effectively resetting the FIFO state.
- *
- * @return true if the registers were successfully reset; false otherwise.
- */
+//---------------------------------------------------------------------------
+// Reset FIFO pointers and overflow counter
 bool max30101_reset_fifo(void)
 {
     bool success = true;
@@ -162,36 +131,23 @@ bool max30101_reset_fifo(void)
     return success;
 }
 
+//---------------------------------------------------------------------------
+// Dynamically set LED pulse amplitudes for any channel
 bool max30101_set_led_pa(uint8_t led_number, uint8_t pa_value)
 {
-    // Validate LED number and PA value
-    if ((led_number != 1 && led_number != 2) || pa_value > 0x1F)
-    {
-        NRF_LOG_ERROR("Invalid LED number or PA value.");
+    if (led_number < 1 || led_number > 4) {
+        NRF_LOG_ERROR("Invalid LED number %d", led_number);
         return false;
     }
 
     uint8_t reg_addr;
-    if (led_number == 1)
-    {
-        reg_addr = MAX30101_LED1_PA;
-    }
-    else // led_number == 2
-    {
-        reg_addr = MAX30101_LED2_PA;
-    }
-
-    uint8_t data[2];
-    data[0] = reg_addr;
-    data[1] = pa_value & 0x1F;  // Ensure only lower 5 bits are used
-
-    // Perform I²C write: Register address followed by PA value
-    if (!twi_master_transfer(MAX30101_I2C_ADDRESS, data, sizeof(data), true))
-    {
-        NRF_LOG_ERROR("Failed to set LED%d PA value.", led_number);
-        return false;
+    switch (led_number) {
+        case 1: reg_addr = MAX30101_LED1_PA; break;
+        case 2: reg_addr = MAX30101_LED2_PA; break;
+        case 3: reg_addr = MAX30101_LED3_PA; break;
+        case 4: reg_addr = MAX30101_LED4_PA; break;
+        default: return false;
     }
 
-    NRF_LOG_INFO("LED%d PA set to %d (0x%02X).", led_number, pa_value, pa_value);
-    return true;
+    return max30101_register_write(reg_addr, pa_value);
 }
