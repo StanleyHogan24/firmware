@@ -2,6 +2,7 @@
 #include "nrf_drv_twi.h"
 #include "app_error.h"
 #include "common_twi.h"
+#include "nrf_log.h"
 
 // TWI instance definition and related variables
 volatile bool m_xfer_done = false;
@@ -10,11 +11,26 @@ const nrf_drv_twi_t m_twi = NRF_DRV_TWI_INSTANCE(TWI_INSTANCE_ID);
 // TWI event handler function
 void twi_handler(nrf_drv_twi_evt_t const * p_event, void * p_context)
 {
-    if (p_event->type == NRF_DRV_TWI_EVT_DONE)
+    switch (p_event->type)
     {
-        m_xfer_done = true;
+        case NRF_DRV_TWI_EVT_DONE:
+            m_xfer_done = true;
+            break;
+
+        case NRF_DRV_TWI_EVT_ADDRESS_NACK:
+            NRF_LOG_INFO("TWI: ADDRESS NACK");
+            m_xfer_done = true;
+            break;
+
+        case NRF_DRV_TWI_EVT_DATA_NACK:
+            NRF_LOG_INFO("TWI: DATA NACK");
+            m_xfer_done = true;
+            break;
+
+        default:
+            // Other events, ignore
+            break;
     }
-    // ... handle other events if necessary
 }
 
 bool twi_master_transfer(uint8_t address, uint8_t *p_data, uint8_t length, bool stop)

@@ -5735,7 +5735,7 @@
 
 // </e>
 
-// <e> TWIS_ENABLED - nrf_drv_twis - TWIS peripheral driver - legacy layer
+// <e> TWIS_ENABLED - nrf_s - TWIS peripheral driver - legacy layer
 //==========================================================
 #ifndef TWIS_ENABLED
 #define TWIS_ENABLED 0

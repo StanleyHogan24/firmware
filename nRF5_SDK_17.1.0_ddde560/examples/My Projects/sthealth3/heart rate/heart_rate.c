@@ -26,13 +26,13 @@
 // Filter Parameters for Signal Conditioning:
 // The MAX30101’s raw output (after its onboard processing) can be noisy. These filters help isolate the pulsatile component.
 // LPF_ALPHA and HPF_ALPHA are chosen empirically (range 0 < alpha < 1).
-#define LPF_ALPHA               0.5f  // Low-pass filter coefficient.
-#define HPF_ALPHA               0.1f  // High-pass filter coefficient.
+#define LPF_ALPHA               0.05f  // Low-pass filter coefficient.
+#define HPF_ALPHA               0.5f  // High-pass filter coefficient.
 
 // Dynamic Threshold Parameters for Peak Detection:
 // The dynamic threshold is computed based on a moving average (baseline) and the signal’s standard deviation.
 // This allows the algorithm to adapt to changes in signal amplitude.
-#define THRESHOLD_FACTOR        1.7f   // Multiplier for the standard deviation (tunable based on experimental data).
+#define THRESHOLD_FACTOR        1.2f   // Multiplier for the standard deviation (tunable based on experimental data).
 #define MOVING_AVG_WINDOW       100    // Window size (number of samples) used for the moving average and standard deviation.
 
 // BPM Calculation Limits (for sanity checking detected peak intervals)
@@ -148,7 +148,7 @@ uint16_t heart_rate_update(float newSample)
     lp_filtered = LPF_ALPHA * newSample + (1.0f - LPF_ALPHA) * lp_filtered;
     if (isnan(lp_filtered) || !isfinite(lp_filtered)) {
         NRF_LOG_ERROR("HR_UPDATE: LPF resulted in NaN or INF. Resetting to baseline.\r\n");
-        lp_filtered =1400000.0f;  // Reset to a fallback baseline value if error occurs.
+        lp_filtered =12000.0f;  // Reset to a fallback baseline value if error occurs.
     }
     NRF_LOG_DEBUG("Low-Pass Filtered Value:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(lp_filtered));
 
@@ -157,7 +157,7 @@ uint16_t heart_rate_update(float newSample)
     // Step 2: High-Pass Filtering (HPF)
     // The HPF removes slow–varying components (baseline wander) from the LPF output.
     // This is computed using the previous LPF value.
-    hp_filtered = (HPF_ALPHA * (hp_filtered + lp_filtered - s_prev_input))*-1;
+    hp_filtered = (HPF_ALPHA * (hp_filtered + lp_filtered - s_prev_input));
     if (isnan(hp_filtered) || !isfinite(hp_filtered)) {
         NRF_LOG_ERROR("HR_UPDATE: HPF resulted in NaN or INF. Resetting to baseline.\r\n");
         hp_filtered = 0.0f;
@@ -236,7 +236,7 @@ uint16_t heart_rate_update(float newSample)
         NRF_LOG_ERROR("HR_UPDATE: Dynamic Threshold resulted in NaN or INF. Resetting to moving average.\r\n");
         dynamic_threshold = moving_avg;
     }
-    NRF_LOG_INFO("Dynamic Threshold:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(dynamic_threshold));
+    NRF_LOG_DEBUG("Dynamic Threshold:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(dynamic_threshold));
     
     // Step 6: Peak Detection
     // A peak is detected when:

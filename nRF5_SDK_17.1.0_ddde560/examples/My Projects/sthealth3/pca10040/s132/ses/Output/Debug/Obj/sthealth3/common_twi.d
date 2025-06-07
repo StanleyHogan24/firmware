@@ -61,4 +61,16 @@ Output/Debug/Obj/sthealth3/common_twi.o: \
  ../../../../../../modules/nrfx/drivers/include/nrfx_twi.h \
  ../../../../../../modules/nrfx/hal/nrf_twi.h \
  ../../../../../../components/libraries/util/app_error.h \
- /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/Common\ TWI/common_twi.h
+ /Users/king/Documents/Document\ -\ Mac/sthealth\ firmware/nRF5_SDK_17.1.0_ddde560/examples/My\ Projects/sthealth3/Common\ TWI/common_twi.h \
+ ../../../../../../components/libraries/log/nrf_log.h \
+ ../../../../../../components/libraries/util/sdk_common.h \
+ /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/string.h \
+ ../../../../../../components/libraries/util/sdk_os.h \
+ ../../../../../../components/libraries/util/app_util.h \
+ ../../../../../../components/libraries/util/sdk_macros.h \
+ ../../../../../../components/libraries/experimental_section_vars/nrf_section.h \
+ ../../../../../../components/libraries/strerror/nrf_strerror.h \
+ ../../../../../../components/libraries/log/src/nrf_log_internal.h \
+ ../../../../../../components/libraries/log/nrf_log_instance.h \
+ ../../../../../../components/libraries/log/nrf_log_types.h \
+ ../../../../../../components/libraries/log/nrf_log_types.h

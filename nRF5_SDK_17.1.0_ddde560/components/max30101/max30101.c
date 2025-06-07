@@ -31,6 +31,20 @@ void twi_master_init(void)
     nrf_drv_twi_enable(&m_twi);
 }
 
+void scan_i2c_bus(void)
+{
+    NRF_LOG_INFO("I²C bus scan:");
+    for (uint8_t addr = 1; addr < 0x7F; addr++)
+    {
+        ret_code_t err = nrf_drv_twi_tx(&m_twi, addr, NULL, 0, false);
+        if (err == NRF_SUCCESS)
+        {
+            NRF_LOG_INFO("  • Device at 0x%02X", addr);
+        }
+        nrf_delay_ms(2);
+    }
+}
+
 //---------------------------------------------------------------------------
 // MAX30101 Register Write
 bool max30101_register_write(uint8_t register_address, uint8_t value)

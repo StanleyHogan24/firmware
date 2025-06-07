@@ -49,9 +49,9 @@
 #define MAX30101_SPO2_CFG            0x47  // 411us PW, 400sps, 4096nA FS
 
 // Default LED Drive Currents (0x00-0xFF)
-#define MAX30101_LED1_PA_VAL         0x3F  // Red
-#define MAX30101_LED2_PA_VAL         0x3F  // IR
-#define MAX30101_LED3_PA_VAL         0x3F  // Green
+#define MAX30101_LED1_PA_VAL         0x1  // Red
+#define MAX30101_LED2_PA_VAL         0x1  // IR
+#define MAX30101_LED3_PA_VAL         0x7F  // Green
 #define MAX30101_LED4_PA_VAL         0x20  // Ambient
 
 // LED Slot Assignments

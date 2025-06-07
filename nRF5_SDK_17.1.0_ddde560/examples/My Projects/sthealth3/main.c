@@ -19,11 +19,15 @@
 #include "heart_rate.h"   // Your heart rate calculation module.
 #include "bpm_service.h"  // Custom BPM BLE service.
 #include "max30101.h"     // Sensor driver for MAX30101.
+#include "accel.h"
+#include "steps.h"
 
 // Application-specific defines
 #define APP_BLE_CONN_CFG_TAG 1
 #define DEVICE_NAME          "sthealth"    // Advertised device name.
 #define MS_PER_SAMPLE        10            // 100 Hz sampling (10 ms per sample).
+
+
 
 
 /*
@@ -179,16 +183,36 @@ int main(void)
     ret_code_t err_code;
     
     // Initialize logging.
-    err_code = NRF_LOG_INIT(NULL);
+     err_code = NRF_LOG_INIT(NULL);
     APP_ERROR_CHECK(err_code);
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 
-    
     // Initialize board support (PCA10040).
     bsp_board_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS);
 
     // Initialize the shared TWI (I2C) interface used by all sensors.
     twi_master_init();
+
+    scan_i2c_bus();
+
+
+
+
+    
+   // 5) MPU-6050 init (0x69 if AD0 is high)
+    NRF_LOG_INFO("Init MPU-6050 at 0x68...");
+    bool ok = mpu6050_init();
+    if (!ok)
+    {
+        NRF_LOG_ERROR("MPU-6050 init NACK or fail");
+    }
+    else
+    {
+        steps_init();
+        NRF_LOG_INFO("MPU-6050 ready");
+    }
+
+    
 
      // Initialize app_timer library.
     err_code = app_timer_init();
@@ -220,6 +244,7 @@ int main(void)
     
     // Initialize heart rate module.
     heart_rate_init();
+    steps_init();
     
     // Initialize MAX30101 sensor (retry until successful).
     while (max30101_init() == false)
@@ -235,6 +260,24 @@ int main(void)
     while (true)
     {
         
+
+        steps_update();
+
+        // 1) Read and log raw accel data
+        {
+        int16_t ax, ay, az;
+        if (mpu6050_read_accel(&ax, &ay, &az))
+          {
+            NRF_LOG_INFO("MPU6050 RAW → X:%d  Y:%d  Z:%d", ax, ay, az);
+          }
+        else
+          {
+            NRF_LOG_WARNING("MPU6050 read error");
+          }
+        }
+
+
+
         
         // Read sensor data from MAX30101.
         if (max30101_read_fifo(&green_led, &red_led, &ir_led))
@@ -261,6 +304,8 @@ int main(void)
             {
                 NRF_LOG_DEBUG("BPM not updated. Current BPM: %u, Previous BPM: %u", bpm, previous_bpm);
             }
+
+          
 
     
 /* COMMENTING OUT BLUETOOTH PORTION

@@ -62,6 +62,11 @@
       Name="Release"
       link_linker_script_file="/Users/king/Desktop/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My Projects/sthealth3/pca10040/s132/armgcc/ble_app_alert_notification_gcc_nrf52.ld"
       link_use_linker_script_file="No" />
+    <folder Name="accelerometer/gyroscope">
+      <file file_name="accel.c" />
+      <file file_name="accel.h" />
+      <file file_name="steps.c" />
+    </folder>
     <folder Name="Application">
       <configuration
         Name="Common"
@@ -83,17 +88,17 @@
       <file file_name="../../../../../../components/libraries/bsp/bsp.c" />
       <file file_name="../../../../../../components/libraries/bsp/bsp_btn_ble.c" />
     </folder>
-    <folder Name="common_twi" />
-    <folder Name="i2c_scanner">
-      <file file_name="../../../../../../components/i2c_scanner/i2c_scanner.c" />
+    <folder Name="common_twi">
+      <file file_name="../../../Common TWI/common_twi.c" />
+      <file file_name="../../../Common TWI/common_twi.h" />
     </folder>
-    <folder Name="max30101">
+    <folder Name="heart rate + blood oxygen">
       <file file_name="../../../heart rate/heart_rate.c" />
       <file file_name="../../../../../../components/max30101/max30101.c" />
       <file file_name="../../../../../../components/max30101/max30101_algorithm.c" />
     </folder>
-    <folder Name="MPU6050">
-      <file file_name="../../../MPU6050/mpu6050.c" />
+    <folder Name="i2c_scanner">
+      <file file_name="../../../../../../components/i2c_scanner/i2c_scanner.c" />
     </folder>
     <folder Name="None">
       <file file_name="../../../../../../modules/nrfx/mdk/ses_startup_nrf52.s" />
@@ -194,13 +199,12 @@
     </folder>
     <file file_name="bpm_service.c" />
     <file file_name="bpm_service.h" />
-    <file file_name="../../../Common TWI/common_twi.c" />
-    <file file_name="../../../Common TWI/common_twi.h" />
     <file file_name="globals.h" />
     <file file_name="heart_rate.h" />
-    <file file_name="../../../../../../components/max30101/i2c_scanner.h" />
     <file file_name="../../../../../../components/i2c_scanner/i2c_scanner.h" />
+    <file file_name="../../../../../../components/max30101/i2c_scanner.h" />
     <file file_name="../../../../../../modules/nrfx/drivers/src/nrfx_timer.c" />
+    <file file_name="steps.h" />
     <file file_name="test.c" />
   </project>
 </solution>
