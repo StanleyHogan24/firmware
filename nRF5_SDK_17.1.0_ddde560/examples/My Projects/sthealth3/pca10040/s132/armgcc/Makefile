@@ -5,7 +5,7 @@ OUTPUT_DIRECTORY := _build
 SDK_ROOT := ../../../../../..
 PROJ_DIR := ../../..
 
-$(OUTPUT_DIRECTORY)/nrf52832_s132.out: \
+$(OUTPUT_DIRECTORY)/nrf52832_xxaa_s132.out: \
   LINKER_SCRIPT  := ble_app_alert_notification_gcc_nrf52.ld
 
 # Source files common to all targets

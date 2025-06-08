@@ -21,16 +21,20 @@
 #include "max30101.h"     // Sensor driver for MAX30101.
 #include "accel.h"
 #include "steps.h"
+#include "gps_uart.h"
+#include "gps_nmea.h"
 
 // Application-specific defines
 #define APP_BLE_CONN_CFG_TAG 1
 #define DEVICE_NAME          "sthealth"    // Advertised device name.
 #define MS_PER_SAMPLE        10            // 100 Hz sampling (10 ms per sample).
 
-
+extern void scan_i2c_bus(void);
 
 
 /*
+
+
 static ble_bpm_service_t m_bpm_service;       // Instance of our custom BPM service.
 static uint16_t          m_conn_handle = BLE_CONN_HANDLE_INVALID;
 static ble_gap_adv_params_t m_adv_params;     // Advertising parameters.
@@ -181,9 +185,16 @@ static void advertising_start(void)
 int main(void)
 {
     ret_code_t err_code;
+    ret_code_t err;
+
+    // Initialize the clock driver for EasyDMA peripherals
+    err = nrf_drv_clock_init();
+    APP_ERROR_CHECK(err);
+    nrf_drv_clock_hfclk_request(NULL);
+    nrf_drv_clock_lfclk_request(NULL);
     
     // Initialize logging.
-     err_code = NRF_LOG_INIT(NULL);
+    err_code = NRF_LOG_INIT(NULL);
     APP_ERROR_CHECK(err_code);
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 
@@ -193,13 +204,14 @@ int main(void)
     // Initialize the shared TWI (I2C) interface used by all sensors.
     twi_master_init();
 
+    // Initialize the scanning of addresses available on I2C bus. 
     scan_i2c_bus();
 
 
 
 
     
-   // 5) MPU-6050 init (0x69 if AD0 is high)
+   // MPU-6050 init (0x69 if AD0 is high)
     NRF_LOG_INFO("Init MPU-6050 at 0x68...");
     bool ok = mpu6050_init();
     if (!ok)
@@ -212,6 +224,13 @@ int main(void)
         NRF_LOG_INFO("MPU-6050 ready");
     }
 
+
+
+    // Initialize GPS parsing and transport
+    gps_nmea_init();
+    NRF_LOG_INFO("NMEA parser init returned.");
+    gps_uart_init();
+    NRF_LOG_INFO("gps_uart_init() returned: 0x%08X", err);
     
 
      // Initialize app_timer library.
@@ -220,29 +239,29 @@ int main(void)
 
     uint32_t red_led = 0, ir_led = 0, green_led=0;
 
-/* COMMENTING OUT BLUETOOTH INITIALIZATION FOR NOW... 
+ //COMMENTING OUT BLUETOOTH INITIALIZATION FOR NOW... 
 
     //Initialize BLE stack
-    ble_stack_init();
+    //ble_stack_init();
 
     
     // Initialize vendor-specific UUID.
-    custom_uuid_init();
+    //custom_uuid_init();
     
     // Initialize device name, and advertising.
    
-    device_name_init();
-    advertising_init();
+    //device_name_init();
+    //advertising_init();
     
     // Initialize custom BPM service.
     // (Ensure bpm_service.c uses 'extern uint8_t m_bpm_uuid_type;' and sets service_uuid.type = m_bpm_uuid_type.)
    // bpm_service_init(&m_bpm_service);
     
     // Start advertising.
-    advertising_start();
-  */
+    //advertising_start();
+
     
-    // Initialize heart rate module.
+    // Initialize Algorithms.
     heart_rate_init();
     steps_init();
     

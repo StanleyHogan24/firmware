@@ -4436,7 +4436,7 @@
 #endif
 // <o> NRFX_UARTE0_ENABLED - Enable UARTE0 instance 
 #ifndef NRFX_UARTE0_ENABLED
-#define NRFX_UARTE0_ENABLED 0
+#define NRFX_UARTE0_ENABLED 1
 #endif
 
 // <o> NRFX_UARTE_DEFAULT_CONFIG_HWFC  - Hardware Flow Control
@@ -4479,7 +4479,7 @@
 // <268435456=> 1000000 baud 
 
 #ifndef NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE
-#define NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE 30801920
+#define NRFX_UARTE_DEFAULT_CONFIG_BAUDRATE 2576384
 #endif
 
 // <o> NRFX_UARTE_DEFAULT_CONFIG_IRQ_PRIORITY  - Interrupt priority
@@ -4500,7 +4500,7 @@
 // <e> NRFX_UARTE_CONFIG_LOG_ENABLED - Enables logging in the module.
 //==========================================================
 #ifndef NRFX_UARTE_CONFIG_LOG_ENABLED
-#define NRFX_UARTE_CONFIG_LOG_ENABLED 0
+#define NRFX_UARTE_CONFIG_LOG_ENABLED 1
 #endif
 // <o> NRFX_UARTE_CONFIG_LOG_LEVEL  - Default Severity level
  
@@ -4557,7 +4557,7 @@
 #endif
 // <o> NRFX_UART0_ENABLED - Enable UART0 instance 
 #ifndef NRFX_UART0_ENABLED
-#define NRFX_UART0_ENABLED 0
+#define NRFX_UART0_ENABLED 1
 #endif
 
 // <o> NRFX_UART_DEFAULT_CONFIG_HWFC  - Hardware Flow Control

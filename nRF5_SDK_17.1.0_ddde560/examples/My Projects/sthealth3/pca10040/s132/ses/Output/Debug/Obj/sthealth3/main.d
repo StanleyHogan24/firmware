@@ -110,4 +110,8 @@ Output/Debug/Obj/sthealth3/main.o: \
  ../../../../../../components/softdevice/s132/headers/ble_gatt.h \
  ../../../../../../components/max30101/max30101.h \
  ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/accel.h \
- ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/steps.h
+ ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/steps.h \
+ ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/gps_uart.h \
+ ../../../../../../modules/nrfx/drivers/include/nrfx_uart.h \
+ ../../../../../../modules/nrfx/hal/nrf_uart.h \
+ ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/gps_nmea.h
