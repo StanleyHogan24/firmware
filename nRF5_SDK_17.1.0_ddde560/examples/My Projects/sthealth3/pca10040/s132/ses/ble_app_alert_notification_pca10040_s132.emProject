@@ -2,21 +2,21 @@
 <solution Name="sthealth3" target="8" version="2">
   <configuration
     Name="Common"
-    link_linker_script_file="/Users/king/Desktop/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My Projects/sthealth3/pca10040/s132/armgcc/ble_app_alert_notification_gcc_nrf52.ld"
-    link_use_linker_script_file="No" />
+    link_linker_script_file="../armgcc/ble_app_alert_notification_gcc_nrf52.ld"
+    link_use_linker_script_file="Yes" />
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG; DEBUG_NRF"
     gcc_optimization_level="None"
-    link_linker_script_file="/Users/king/Desktop/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My Projects/sthealth3/pca10040/s132/armgcc/ble_app_alert_notification_gcc_nrf52.ld"
-    link_use_linker_script_file="No" />
+    link_linker_script_file="../armgcc/ble_app_alert_notification_gcc_nrf52.ld"
+    link_use_linker_script_file="Yes" />
   <configuration
     Name="Release"
     c_preprocessor_definitions="NDEBUG"
     gcc_optimization_level="Optimize For Size"
-    link_linker_script_file="/Users/king/Desktop/NRF Programming/DeviceDownload/nRF5_SDK_17.1.0_ddde560/examples/My Projects/sthealth3/pca10040/s132/armgcc/ble_app_alert_notification_gcc_nrf52.ld"
+    link_linker_script_file="../armgcc/ble_app_alert_notification_gcc_nrf52.ld"
     link_time_optimization="No"
-    link_use_linker_script_file="No" />
+    link_use_linker_script_file="Yes" />
   <project Name="sthealth3">
     <configuration
       Name="Common"
@@ -48,8 +48,8 @@
       linker_printf_width_precision_supported="Yes"
       linker_scanf_fmt_level="long"
       linker_section_placement_file="flash_placement.xml"
-      linker_section_placement_macros="FLASH_PH_START=0x0;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002260;RAM_SIZE=0xddb0"
-      linker_section_placements_segments="FLASH1 RX 0x0 0x80000;RAM1 RWX 0x20002270 0xDD80"
+      linker_section_placement_macros="FLASH_PH_START=0x0;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002270;RAM_SIZE=0xDD90"
+      linker_section_placements_segments="FLASH1 RX 0x0 0x80000;RAM1 RWX 0x20002270 0xDD90"
       macros="CMSIS_CONFIG_TOOL=../../../../../../external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
       project_directory=""
       project_type="Executable" />

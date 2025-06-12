@@ -32,7 +32,6 @@
 extern void scan_i2c_bus(void);
 
 
-/*
 
 
 static ble_bpm_service_t m_bpm_service;       // Instance of our custom BPM service.
@@ -180,7 +179,7 @@ static void advertising_start(void)
     NRF_LOG_INFO("Advertising started.");
 }
 
-*/
+
 
 int main(void)
 {
@@ -242,23 +241,23 @@ int main(void)
  //COMMENTING OUT BLUETOOTH INITIALIZATION FOR NOW... 
 
     //Initialize BLE stack
-    //ble_stack_init();
+    ble_stack_init();
 
     
     // Initialize vendor-specific UUID.
-    //custom_uuid_init();
+    custom_uuid_init();
     
     // Initialize device name, and advertising.
    
-    //device_name_init();
-    //advertising_init();
+    device_name_init();
+    advertising_init();
     
     // Initialize custom BPM service.
     // (Ensure bpm_service.c uses 'extern uint8_t m_bpm_uuid_type;' and sets service_uuid.type = m_bpm_uuid_type.)
-   // bpm_service_init(&m_bpm_service);
+    //bpm_service_init(&m_bpm_service);
     
     // Start advertising.
-    //advertising_start();
+    advertising_start();
 
     
     // Initialize Algorithms.
