@@ -50,7 +50,7 @@ static ble_gap_conn_params_t m_gap_conn_params =
     .min_conn_interval = 24,                      // 7.5 ms connection interval (6 * 1.25 ms)
     .max_conn_interval = 24,                      // 7.5 ms connection interval (6 * 1.25 ms)
     .slave_latency     = 0,                      // No slave latency
-    .conn_sup_timeout  = MSEC_TO_UNITS(720, UNIT_10_MS)  // 4000 ms supervision timeout
+    .conn_sup_timeout  = MSEC_TO_UNITS(4000, UNIT_10_MS)  // 4000 ms supervision timeout
 };
 
 // Global vendor-specific UUID type for your custom service.
@@ -277,6 +277,7 @@ int main(void)
 
     //Initialize BLE stack
     ble_stack_init();
+    sd_ble_gap_ppcp_set(&m_gap_conn_params);
 
     
     // Initialize vendor-specific UUID.
