@@ -65,5 +65,5 @@
  <Files>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="224" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="0" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="sthealth3" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="/Users/king/Documents/Document - Mac/sthealth firmware/nRF5_SDK_17.1.0_ddde560/components/libraries/uart" debugSearchPath="" autoConnectCapabilities="3711"/>
+ <EMStudioWindow activeProject="sthealth3" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

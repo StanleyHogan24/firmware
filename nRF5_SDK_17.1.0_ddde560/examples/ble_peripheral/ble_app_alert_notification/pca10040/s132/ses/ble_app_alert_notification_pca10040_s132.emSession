@@ -40,5 +40,5 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="0" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="279" codecName="Default"/>
   <SessionOpenFile windowGroup="HUD {84fd0f22-4420-46c1-b15f-81f8a511471f} Middle" x="0" y="77" useTextEdit="1" path="../../../../../../external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" left="0" top="46" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="ble_app_alert_notification_pca10040_s132" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="ble_app_alert_notification_pca10040_s132" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>

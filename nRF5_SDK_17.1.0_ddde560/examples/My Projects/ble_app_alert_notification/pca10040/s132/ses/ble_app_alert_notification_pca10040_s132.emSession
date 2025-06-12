@@ -43,5 +43,5 @@
  <Files>
   <SessionOpenFile windowGroup="DockEditLeft" x="24" y="63" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="34" codecName="Default"/>
  </Files>
- <EMStudioWindow activeProject="ble_app_alert_notification_pca10040_s132" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <EMStudioWindow activeProject="ble_app_alert_notification_pca10040_s132" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
