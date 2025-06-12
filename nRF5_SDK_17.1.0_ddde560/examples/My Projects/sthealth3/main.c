@@ -72,6 +72,8 @@ static void custom_uuid_init(void)
 // BLE event handler – updates connection handle and forwards events.
 static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 {
+    ret_code_t err_code;
+
     switch(p_ble_evt->header.evt_id)
     {
         case BLE_GAP_EVT_CONNECTED:
@@ -79,17 +81,50 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
             m_bpm_service.conn_handle = m_conn_handle;
             break;
-            
+
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected.");
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             m_bpm_service.conn_handle = BLE_CONN_HANDLE_INVALID;
             break;
-            
+
+        case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
+        {
+            NRF_LOG_DEBUG("PHY update request.");
+            ble_gap_phys_t const phys = {
+                .rx_phys = BLE_GAP_PHY_AUTO,
+                .tx_phys = BLE_GAP_PHY_AUTO,
+            };
+            err_code = sd_ble_gap_phy_update(p_ble_evt->evt.gap_evt.conn_handle,
+                                             &phys);
+            APP_ERROR_CHECK(err_code);
+        } break;
+
+        case BLE_GAP_EVT_CONN_PARAM_UPDATE:
+        {
+            ble_gap_conn_params_t const * params =
+                &p_ble_evt->evt.gap_evt.params.conn_param_update.conn_params;
+            NRF_LOG_INFO("Conn params updated: min %u max %u lat %u sup_to %u",
+                         params->min_conn_interval,
+                         params->max_conn_interval,
+                         params->slave_latency,
+                         params->conn_sup_timeout);
+        } break;
+
+        case BLE_GAP_EVT_SEC_PARAMS_REQUEST:
+            NRF_LOG_DEBUG("BLE_GAP_EVT_SEC_PARAMS_REQUEST");
+            err_code = sd_ble_gap_sec_params_reply(p_ble_evt->evt.gap_evt.conn_handle,
+                                                   BLE_GAP_SEC_STATUS_PAIRING_NOT_SUPP,
+                                                   NULL,
+                                                   NULL);
+            APP_ERROR_CHECK(err_code);
+            break;
+
         default:
             break;
     }
 }
+
 
 // Initialize the BLE stack.
 static void ble_stack_init(void)
@@ -254,7 +289,7 @@ int main(void)
     
     // Initialize custom BPM service.
     // (Ensure bpm_service.c uses 'extern uint8_t m_bpm_uuid_type;' and sets service_uuid.type = m_bpm_uuid_type.)
-    //bpm_service_init(&m_bpm_service);
+    bpm_service_init(&m_bpm_service);
     
     // Start advertising.
     advertising_start();
@@ -325,8 +360,6 @@ int main(void)
 
           
 
-    
-/* COMMENTING OUT BLUETOOTH PORTION
 
 
             if ((bpm != previous_bpm) && (bpm != 0))
@@ -341,7 +374,7 @@ int main(void)
                 }
             }
 
-*/
+
         }
         else
         {
