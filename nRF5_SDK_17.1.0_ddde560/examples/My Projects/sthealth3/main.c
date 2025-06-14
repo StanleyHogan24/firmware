@@ -43,12 +43,12 @@ static uint8_t m_adv_handle = BLE_GAP_ADV_SET_HANDLE_NOT_SET;
 static uint8_t m_encoded_advdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
 static uint8_t m_encoded_scanrspdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
 
-// Define connection parameters for a 7.5 ms interval
-// Since connection intervals are in units of 1.25 ms, 7.5 ms equals 6 units.
+// Define connection parameters for a 30 ms interval
+// Since connection intervals are in units of 1.25 ms, 30 ms equals 24 units.
 static ble_gap_conn_params_t m_gap_conn_params =
 {
-    .min_conn_interval = 24,                      // 7.5 ms connection interval (6 * 1.25 ms)
-    .max_conn_interval = 24,                      // 7.5 ms connection interval (6 * 1.25 ms)
+    .min_conn_interval = 24,                      // 30 ms connection interval (24 * 1.25 ms)
+    .max_conn_interval = 24,                      // 30 ms connection interval (24 * 1.25 ms)
     .slave_latency     = 0,                      // No slave latency
     .conn_sup_timeout  = MSEC_TO_UNITS(4000, UNIT_10_MS)  // 4000 ms supervision timeout
 };
