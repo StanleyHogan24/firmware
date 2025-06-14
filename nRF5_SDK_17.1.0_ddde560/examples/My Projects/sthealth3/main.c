@@ -31,9 +31,6 @@
 
 extern void scan_i2c_bus(void);
 
-
-
-
 static ble_bpm_service_t m_bpm_service;       // Instance of our custom BPM service.
 static uint16_t          m_conn_handle = BLE_CONN_HANDLE_INVALID;
 static ble_gap_adv_params_t m_adv_params;     // Advertising parameters.

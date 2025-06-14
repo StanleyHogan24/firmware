@@ -6,6 +6,7 @@ Output/Debug/Obj/sthealth3/bpm_service.o: \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_ConfDefaults.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_Conf.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/__SEGGER_RTL_Arm_Conf.h \
+ /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdbool.h \
  ../../../../../../components/softdevice/s132/headers/ble.h \
  ../../../../../../components/softdevice/s132/headers/nrf_svc.h \
  ../../../../../../components/softdevice/s132/headers/nrf_error.h \
@@ -31,7 +32,6 @@ Output/Debug/Obj/sthealth3/bpm_service.o: \
  ../../../../../../modules/nrfx/mdk/compiler_abstraction.h \
  ../../../../../../components/softdevice/s132/headers/ble_gatts.h \
  ../../../../../../components/ble/common/ble_srv_common.h \
- /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdbool.h \
  ../../../../../../components/softdevice/s132/headers/ble_types.h \
  ../../../../../../components/libraries/util/app_util.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stddef.h \
@@ -61,4 +61,28 @@ Output/Debug/Obj/sthealth3/bpm_service.o: \
  ../../../../../../components/libraries/log/nrf_log_types.h \
  ../../../../../../components/libraries/util/app_error.h \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdio.h \
- ../../../../../../components/libraries/util/app_error_weak.h
+ ../../../../../../components/libraries/util/app_error_weak.h \
+ ../../../../../../modules/nrfx/hal/nrf_gpio.h \
+ ../../../../../../modules/nrfx/nrfx.h \
+ ../../../../../../integration/nrfx/nrfx_config.h \
+ ../../../../../../modules/nrfx/drivers/nrfx_common.h \
+ ../../../../../../modules/nrfx/mdk/nrf_peripherals.h \
+ ../../../../../../modules/nrfx/mdk/nrf52832_peripherals.h \
+ ../../../../../../integration/nrfx/nrfx_glue.h \
+ ../../../../../../integration/nrfx/legacy/apply_old_config.h \
+ ../../../../../../modules/nrfx/soc/nrfx_irqs.h \
+ ../../../../../../modules/nrfx/soc/nrfx_irqs_nrf52832.h \
+ ../../../../../../components/libraries/util/nrf_assert.h \
+ ../../../../../../components/libraries/util/app_util_platform.h \
+ ../../../../../../components/softdevice/s132/headers/nrf_soc.h \
+ ../../../../../../components/softdevice/s132/headers/nrf_error_soc.h \
+ ../../../../../../components/softdevice/s132/headers/nrf_nvic.h \
+ ../../../../../../components/libraries/util/app_error.h \
+ ../../../../../../modules/nrfx/soc/nrfx_coredep.h \
+ ../../../../../../modules/nrfx/soc/nrfx_atomic.h \
+ ../../../../../../components/libraries/util/sdk_resources.h \
+ ../../../../../../components/softdevice/s132/headers/nrf_sd_def.h \
+ ../../../../../../components/softdevice/s132/headers/nrf_soc.h \
+ ../../../../../../modules/nrfx/drivers/nrfx_errors.h \
+ ../../../../../../components/boards/boards.h \
+ ../../../../../../components/boards/pca10040.h

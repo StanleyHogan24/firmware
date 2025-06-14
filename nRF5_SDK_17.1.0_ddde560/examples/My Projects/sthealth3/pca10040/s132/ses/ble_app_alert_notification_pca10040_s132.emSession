@@ -26,11 +26,6 @@
   <ProjectSessionItem path="sthealth3;sthealth3;Application"/>
   <ProjectSessionItem path="sthealth3;sthealth3;bluetooth deliverables"/>
   <ProjectSessionItem path="sthealth3;sthealth3;nRF_Libraries"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;nRF_Log"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;nRF_Segger_RTT"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;nRF_SoftDevice"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;Segger Startup Files"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;UTF8/UTF16 converter"/>
  </Project>
  <Register1>
   <RegisterWindow invisibleNodes="" visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="sthealth3_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -63,8 +58,10 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="224" useTextEdit="1" path="../../../main.c" left="0" top="202" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" path="../../../../../../components/libraries/util/app_error_weak.c" left="0" selected="1" top="68" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="53" useTextEdit="1" path="../../../main.c" left="0" top="41" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="9" useTextEdit="1" path="bpm_service.c" left="0" selected="1" top="78" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="10" useTextEdit="1" path="bpm_service.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="11436" useTextEdit="1" path="../config/sdk_config.h" left="0" top="11413" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="sthealth3" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

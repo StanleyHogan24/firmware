@@ -2,6 +2,10 @@
 #include "nrf_log.h"
 #include "app_error.h"
 #include <string.h>
+#include "ble_srv_common.h"
+#include "nrf_gpio.h"
+#include "boards.h"
+#include "nrf_log.h"
 
 extern uint8_t m_bpm_uuid_type; // Use the vendor-specific UUID type registered in main.c
 
@@ -22,6 +26,15 @@ void bpm_service_init(ble_bpm_service_t * p_bpm_service)
     ble_gatts_char_md_t char_md = {0};
     char_md.char_props.read   = 1;
     char_md.char_props.notify = 1;
+    
+    // Add a Client Characteristic Configuration Descriptor (CCCD) so that
+    // a peer can enable notifications.
+    ble_gatts_attr_md_t cccd_md = {0};
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cccd_md.read_perm);
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&cccd_md.write_perm);
+    cccd_md.vloc = BLE_GATTS_VLOC_STACK;
+
+    char_md.p_cccd_md = &cccd_md;
     
     ble_uuid_t char_uuid;
     char_uuid.type = m_bpm_uuid_type;
