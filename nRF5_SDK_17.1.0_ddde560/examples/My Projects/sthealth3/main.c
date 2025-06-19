@@ -72,13 +72,13 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         case BLE_GAP_EVT_CONNECTED:
             NRF_LOG_INFO("Connected.");
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-            m_bpm_service.conn_handle = m_conn_handle;
+            //m_bpm_service.conn_handle = m_conn_handle;
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected.");
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
-            m_bpm_service.conn_handle = BLE_CONN_HANDLE_INVALID;
+            //m_bpm_service.conn_handle = BLE_CONN_HANDLE_INVALID;
             break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
@@ -116,6 +116,10 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         default:
             break;
     }
+
+    // Forward the event to the BPM service so it can react to connection and
+    // CCCD changes.
+    bpm_service_on_ble_evt(&m_bpm_service, p_ble_evt);
 }
 
 

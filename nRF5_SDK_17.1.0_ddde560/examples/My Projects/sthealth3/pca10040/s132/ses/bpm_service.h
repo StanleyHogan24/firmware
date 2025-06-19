@@ -19,6 +19,18 @@ typedef struct
     uint16_t                    conn_handle;
 } ble_bpm_service_t;
 
+/**@brief Handle BLE events relevant to the BPM service.
+ *
+ * This should be called from the application's BLE event dispatcher so the
+ * service can track connection state and CCCD writes.
+ *
+ * @param[in,out] p_bpm_service Service instance.
+ * @param[in]     p_ble_evt     Event received from the SoftDevice.
+ */
+void bpm_service_on_ble_evt(ble_bpm_service_t * p_bpm_service,
+                            ble_evt_t const   * p_ble_evt);
+
+
 /**@brief Function for initializing the custom BPM Service.
  *
  * @param[in,out] p_bpm_service  Service structure.

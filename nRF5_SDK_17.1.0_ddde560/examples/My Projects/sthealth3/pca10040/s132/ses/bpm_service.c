@@ -65,6 +65,42 @@ void bpm_service_init(ble_bpm_service_t * p_bpm_service)
     NRF_LOG_INFO("BPM Service initialized.");
 }
 
+void bpm_service_on_ble_evt(ble_bpm_service_t * p_bpm_service,
+                            ble_evt_t const   * p_ble_evt)
+{
+    if (p_bpm_service == NULL || p_ble_evt == NULL)
+    {
+        return;
+    }
+
+    switch (p_ble_evt->header.evt_id)
+    {
+        case BLE_GAP_EVT_CONNECTED:
+            p_bpm_service->conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
+            break;
+
+        case BLE_GAP_EVT_DISCONNECTED:
+            p_bpm_service->conn_handle = BLE_CONN_HANDLE_INVALID;
+            break;
+
+        case BLE_GATTS_EVT_WRITE:
+        {
+            ble_gatts_evt_write_t const * p_evt_write =
+                &p_ble_evt->evt.gatts_evt.params.write;
+            if (p_evt_write->handle == p_bpm_service->bpm_char_handles.cccd_handle &&
+                p_evt_write->len    == 2)
+            {
+                bool notif_enabled = ble_srv_is_notification_enabled(p_evt_write->data);
+                NRF_LOG_INFO("BPM notifications %s",
+                             notif_enabled ? "enabled" : "disabled");
+            }
+        } break;
+
+        default:
+            break;
+    }
+}
+
 uint32_t bpm_service_update(ble_bpm_service_t * p_bpm_service, uint16_t bpm)
 {
     ret_code_t err_code;
