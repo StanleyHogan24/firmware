@@ -15,6 +15,7 @@
 #include "nrf_sdh_ble.h"
 #include "ble_gap.h"
 #include "ble_advdata.h"  // Use ble_advdata_encode()
+#include "ble_conn_params.h"
 
 #include "heart_rate.h"   // Your heart rate calculation module.
 #include "bpm_service.h"  // Custom BPM BLE service.
@@ -198,7 +199,35 @@ static void advertising_init(void)
     adv_data.scan_rsp_data.len = 0;
     
     // Configure the advertising set.
-    err_code = sd_ble_gap_adv_set_configure(&m_adv_handle, &adv_data, &m_adv_params);
+        err_code = sd_ble_gap_adv_set_configure(&m_adv_handle, &adv_data, &m_adv_params);
+    APP_ERROR_CHECK(err_code);
+}
+
+// Handle errors from the connection parameters module.
+static void conn_params_error_handler(uint32_t nrf_error)
+{
+    APP_ERROR_HANDLER(nrf_error);
+}
+
+// Initialize the connection parameters module to reply to parameter update
+// requests from the central and optionally request updates.
+static void conn_params_init(void)
+{
+    ret_code_t err_code;
+    ble_conn_params_init_t cp_init;
+
+    memset(&cp_init, 0, sizeof(cp_init));
+
+    cp_init.p_conn_params                  = NULL;
+    cp_init.first_conn_params_update_delay = APP_TIMER_TICKS(5000);
+    cp_init.next_conn_params_update_delay  = APP_TIMER_TICKS(30000);
+    cp_init.max_conn_params_update_count   = 3;
+    cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
+    cp_init.disconnect_on_fail             = true;
+    cp_init.evt_handler                    = NULL;
+    cp_init.error_handler                  = conn_params_error_handler;
+
+    err_code = ble_conn_params_init(&cp_init);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -284,6 +313,7 @@ int main(void)
    
     device_name_init();
     advertising_init();
+    conn_params_init();
     
     // Initialize Heart Rate service (BPM).
     bpm_service_init(&m_bpm_service);
