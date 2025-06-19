@@ -50,20 +50,16 @@ static ble_gap_conn_params_t m_gap_conn_params =
     .conn_sup_timeout  = MSEC_TO_UNITS(4000, UNIT_10_MS)  // 4000 ms supervision timeout
 };
 
-// Global vendor-specific UUID type for your custom service.
-uint8_t m_bpm_uuid_type;  
+// UUID type used for the Heart Rate service.
+uint8_t m_bpm_uuid_type;
 
 // Vendor-specific base UUID registration.
 // Replace the base UUID below with one unique to your application.
 static void custom_uuid_init(void)
 {
-    ret_code_t err_code;
-    ble_uuid128_t bpm_base_uuid = { { 0x23, 0x15, 0xA4, 0x91,
-                                       0x5A, 0xB3, 0x4F, 0x8E,
-                                       0x87, 0x42, 0x12, 0x00,
-                                       0x00, 0x00, 0x00, 0x00 } };
-    err_code = sd_ble_uuid_vs_add(&bpm_base_uuid, &m_bpm_uuid_type);
-    APP_ERROR_CHECK(err_code);
+    // Use the standard BLE UUID type since the Heart Rate service uses
+    // a 16-bit Bluetooth SIG assigned value.
+    m_bpm_uuid_type = BLE_UUID_TYPE_BLE;
 }
 
 // BLE event handler – updates connection handle and forwards events.
@@ -285,8 +281,7 @@ int main(void)
     device_name_init();
     advertising_init();
     
-    // Initialize custom BPM service.
-    // (Ensure bpm_service.c uses 'extern uint8_t m_bpm_uuid_type;' and sets service_uuid.type = m_bpm_uuid_type.)
+    // Initialize Heart Rate service (BPM).
     bpm_service_init(&m_bpm_service);
     
     // Start advertising.

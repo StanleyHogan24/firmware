@@ -6,10 +6,10 @@
 #include "ble.h"
 #include "ble_srv_common.h"
 
-// Example 16-bit UUIDs for the custom BPM Service and its characteristic.
-// (Replace these with your own UUIDs as needed.)
-#define BLE_UUID_BPM_SERVICE  0x1400
-#define BLE_UUID_BPM_CHAR     0x1401
+// UUIDs used for the BPM (Heart Rate) service and characteristic.
+// These match the standard Heart Rate Service definitions.
+#define BLE_UUID_BPM_SERVICE  0x180D  /**< Heart Rate service UUID. */
+#define BLE_UUID_BPM_CHAR     0x2A37  /**< Heart Rate Measurement characteristic UUID. */
 
 // Structure to hold the service and its characteristic handles.
 typedef struct

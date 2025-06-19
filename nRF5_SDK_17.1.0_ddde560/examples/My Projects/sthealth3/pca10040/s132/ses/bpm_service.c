@@ -7,7 +7,8 @@
 #include "boards.h"
 #include "nrf_log.h"
 
-extern uint8_t m_bpm_uuid_type; // Use the vendor-specific UUID type registered in main.c
+// UUID type used for the Heart Rate service. This is set in main.c and will be BLE_UUID_TYPE_BLE for standard 16-bit UUIDs.
+extern uint8_t m_bpm_uuid_type;
 
 void bpm_service_init(ble_bpm_service_t * p_bpm_service)
 {
