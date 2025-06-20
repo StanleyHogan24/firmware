@@ -220,7 +220,7 @@ static void conn_params_init(void)
 
     memset(&cp_init, 0, sizeof(cp_init));
 
-    cp_init.p_conn_params                  = NULL;
+    cp_init.p_conn_params                  = &m_gap_conn_params;
     cp_init.first_conn_params_update_delay = APP_TIMER_TICKS(5000);
     cp_init.next_conn_params_update_delay  = APP_TIMER_TICKS(30000);
     cp_init.max_conn_params_update_count   = 3;
