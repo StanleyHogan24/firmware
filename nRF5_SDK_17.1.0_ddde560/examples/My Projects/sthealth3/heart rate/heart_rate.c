@@ -84,7 +84,7 @@ static float moving_avg_sum = 0.0f; // Running sum for the moving average calcul
  */
 void heart_rate_init(void)
 {
-    NRF_LOG_INFO("HR_INIT: Initialization started.");
+    NRF_LOG_DEBUG("HR_INIT: Initialization started.");
     
     s_sampleCounter  = 0;
     s_bpm            = 0;
@@ -104,7 +104,7 @@ void heart_rate_init(void)
     hp_filtered = 0.0f;
     s_prev_input = lp_filtered;
     
-    NRF_LOG_INFO("HR_INIT: Initialization completed.");
+    NRF_LOG_DEBUG("HR_INIT: Initialization completed.");
 }
 
 /*
@@ -128,9 +128,9 @@ void heart_rate_init(void)
  */
 uint16_t heart_rate_update(float newSample)
 {
-    NRF_LOG_INFO(">> Entered heart_rate_udpate\r\n");
+    NRF_LOG_DEBUG(">> Entered heart_rate_udpate\r\n");
     s_sampleCounter++;
-    NRF_LOG_INFO("HR_UPDATE: Sample Counter: %u\r\n", s_sampleCounter);
+    NRF_LOG_DEBUG("HR_UPDATE: Sample Counter: %u\r\n", s_sampleCounter);
     
     
     // Step 0: Input Validation
@@ -163,7 +163,7 @@ uint16_t heart_rate_update(float newSample)
         hp_filtered = 0.0f;
         s_prev_input = lp_filtered;
     }
-    NRF_LOG_INFO("High-Pass Filtered Value:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(hp_filtered));
+    NRF_LOG_DEBUG("High-Pass Filtered Value:" NRF_LOG_FLOAT_MARKER, NRF_LOG_FLOAT(hp_filtered));
     
     // Update the previous input for use in the next HPF calculation.
     s_prev_input = lp_filtered;

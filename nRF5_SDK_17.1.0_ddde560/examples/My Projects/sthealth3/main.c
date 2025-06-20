@@ -25,6 +25,8 @@
 #include "gps_uart.h"
 #include "gps_nmea.h"
 
+
+
 // Application-specific defines
 #define APP_BLE_CONN_CFG_TAG 1
 #define DEVICE_NAME          "sthealth"    // Advertised device name.
@@ -45,8 +47,8 @@ static uint8_t m_encoded_scanrspdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
 // Since connection intervals are in units of 1.25 ms, 30 ms equals 24 units.
 static ble_gap_conn_params_t m_gap_conn_params =
 {
-    .min_conn_interval = 24,                      // 30 ms connection interval (24 * 1.25 ms)
-    .max_conn_interval = 24,                      // 30 ms connection interval (24 * 1.25 ms)
+    .min_conn_interval = 16,                      // 20 ms connection interval (16 * 1.25 ms)
+    .max_conn_interval = 60,                      // 75 ms connection interval (60 * 1.25 ms)
     .slave_latency     = 0,                      // No slave latency
     .conn_sup_timeout  = MSEC_TO_UNITS(4000, UNIT_10_MS)  // 4000 ms supervision timeout
 };
@@ -84,7 +86,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
         {
-            NRF_LOG_DEBUG("PHY update request.");
+            NRF_LOG_INFO("PHY update request.");
             ble_gap_phys_t const phys = {
                 .rx_phys = BLE_GAP_PHY_AUTO,
                 .tx_phys = BLE_GAP_PHY_AUTO,
@@ -106,7 +108,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         } break;
 
         case BLE_GAP_EVT_SEC_PARAMS_REQUEST:
-            NRF_LOG_DEBUG("BLE_GAP_EVT_SEC_PARAMS_REQUEST");
+            NRF_LOG_INFO("BLE_GAP_EVT_SEC_PARAMS_REQUEST");
             err_code = sd_ble_gap_sec_params_reply(p_ble_evt->evt.gap_evt.conn_handle,
                                                    BLE_GAP_SEC_STATUS_PAIRING_NOT_SUPP,
                                                    NULL,
@@ -223,7 +225,7 @@ static void conn_params_init(void)
     cp_init.next_conn_params_update_delay  = APP_TIMER_TICKS(30000);
     cp_init.max_conn_params_update_count   = 3;
     cp_init.start_on_notify_cccd_handle    = BLE_GATT_HANDLE_INVALID;
-    cp_init.disconnect_on_fail             = true;
+    cp_init.disconnect_on_fail             = false;
     cp_init.evt_handler                    = NULL;
     cp_init.error_handler                  = conn_params_error_handler;
 
@@ -238,6 +240,21 @@ static void advertising_start(void)
     err_code = sd_ble_gap_adv_start(m_adv_handle, APP_BLE_CONN_CFG_TAG);
     APP_ERROR_CHECK(err_code);
     NRF_LOG_INFO("Advertising started.");
+}
+
+void log_softdevice_version(void)
+{
+    #if defined(SOFTDEVICE_PRESENT)
+        #if defined(S132)
+            NRF_LOG_INFO("SoftDevice s132 is being used.");
+        #elif defined(S140)
+            NRF_LOG_INFO("SoftDevice s140 is being used.");
+        #else
+            NRF_LOG_INFO("Other SoftDevice detected.");
+        #endif
+    #else
+        NRF_LOG_INFO("No SoftDevice present.");
+    #endif
 }
 
 
@@ -265,14 +282,14 @@ int main(void)
     twi_master_init();
 
     // Initialize the scanning of addresses available on I2C bus. 
-    scan_i2c_bus();
+    //scan_i2c_bus();
 
 
 
 
     
    // MPU-6050 init (0x69 if AD0 is high)
-    NRF_LOG_INFO("Init MPU-6050 at 0x68...");
+    NRF_LOG_DEBUG("Init MPU-6050 at 0x68...");
     bool ok = mpu6050_init();
     if (!ok)
     {
@@ -281,16 +298,16 @@ int main(void)
     else
     {
         steps_init();
-        NRF_LOG_INFO("MPU-6050 ready");
+        NRF_LOG_DEBUG("MPU-6050 ready");
     }
 
 
 
     // Initialize GPS parsing and transport
     gps_nmea_init();
-    NRF_LOG_INFO("NMEA parser init returned.");
+    NRF_LOG_DEBUG("NMEA parser init returned.");
     gps_uart_init();
-    NRF_LOG_INFO("gps_uart_init() returned: 0x%08X", err);
+    NRF_LOG_DEBUG("gps_uart_init() returned: 0x%08X", err);
     
 
      // Initialize app_timer library.
@@ -329,10 +346,10 @@ int main(void)
     // Initialize MAX30101 sensor (retry until successful).
     while (max30101_init() == false)
     {
-        NRF_LOG_INFO("MAX30101 initialization failed, retrying...");
+        NRF_LOG_DEBUG("MAX30101 initialization failed, retrying...");
         nrf_delay_ms(1000);
     }
-    NRF_LOG_INFO("MAX30101 initialized successfully.");
+    NRF_LOG_DEBUG("MAX30101 initialized successfully.");
     
     uint16_t previous_bpm = 0;
     
@@ -348,7 +365,7 @@ int main(void)
         int16_t ax, ay, az;
         if (mpu6050_read_accel(&ax, &ay, &az))
           {
-            NRF_LOG_INFO("MPU6050 RAW → X:%d  Y:%d  Z:%d", ax, ay, az);
+            NRF_LOG_DEBUG("MPU6050 RAW → X:%d  Y:%d  Z:%d", ax, ay, az);
           }
         else
           {
@@ -391,13 +408,13 @@ int main(void)
 
             if ((bpm != previous_bpm) && (bpm != 0))
             {
-                NRF_LOG_INFO("Heart Rate: %u BPM", bpm);
+                NRF_LOG_DEBUG("Heart Rate: %u BPM", bpm);
                 previous_bpm = bpm;
                 
                 err_code = bpm_service_update(&m_bpm_service, bpm);
                 if (err_code != NRF_SUCCESS)
                 {
-                    NRF_LOG_ERROR("BPM update over BLE failed. Error: 0x%08X", err_code);
+                    NRF_LOG_INFO("BPM update over BLE failed. Error: 0x%08X", err_code);
                 }
             }
 
@@ -405,7 +422,7 @@ int main(void)
         }
         else
         {
-            NRF_LOG_INFO("MAX30101 FIFO read failed!");
+            NRF_LOG_DEBUG("MAX30101 FIFO read failed!");
         }
         
         // Delay to maintain a 100 Hz sampling rate.

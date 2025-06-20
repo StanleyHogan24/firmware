@@ -1,7 +1,7 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+ <Breakpoints groups="Breakpoints;V7M Exceptions" active_group="Breakpoints">
   <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
@@ -24,7 +24,9 @@
   <ProjectSessionItem path="sthealth3"/>
   <ProjectSessionItem path="sthealth3;sthealth3"/>
   <ProjectSessionItem path="sthealth3;sthealth3;Application"/>
-  <ProjectSessionItem path="sthealth3;sthealth3;bluetooth deliverables"/>
+  <ProjectSessionItem path="sthealth3;sthealth3;Board Definition"/>
+  <ProjectSessionItem path="sthealth3;sthealth3;Board Support"/>
+  <ProjectSessionItem path="sthealth3;sthealth3;heart rate + blood oxygen"/>
   <ProjectSessionItem path="sthealth3;sthealth3;nRF_Libraries"/>
  </Project>
  <Register1>
@@ -58,10 +60,14 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="53" useTextEdit="1" path="../../../main.c" left="0" top="41" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="9" useTextEdit="1" path="bpm_service.c" left="0" selected="1" top="78" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="10" useTextEdit="1" path="bpm_service.h" left="0" top="0" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="35" y="11436" useTextEdit="1" path="../config/sdk_config.h" left="0" top="11413" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="257" useTextEdit="1" path="../../../main.c" left="0" selected="1" top="213" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="67" useTextEdit="1" path="bpm_service.c" left="0" top="46" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="34" y="26" useTextEdit="1" path="bpm_service.h" left="0" top="34" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="45" y="11875" useTextEdit="1" path="../config/sdk_config.h" left="0" top="11864" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" path="../../../../../../components/libraries/util/app_error_weak.c" left="0" top="66" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="110" y="82" useTextEdit="1" path="../../../../../../components/ble/common/ble_conn_params.h" left="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="165" useTextEdit="1" path="../../../heart rate/heart_rate.c" left="0" top="230" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="79" y="18" useTextEdit="1" path="../../../../../../components/boards/boards.c" left="0" top="0" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="sthealth3" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
