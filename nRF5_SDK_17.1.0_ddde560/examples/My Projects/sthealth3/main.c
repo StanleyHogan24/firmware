@@ -75,7 +75,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
         case BLE_GAP_EVT_CONNECTED:
             NRF_LOG_INFO("Connected.");
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
-            //m_bpm_service.conn_handle = m_conn_handle;
+            m_bpm_service.conn_handle = m_conn_handle;
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
@@ -95,6 +95,21 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
                                              &phys);
             APP_ERROR_CHECK(err_code);
         } break;
+
+        case BLE_GAP_EVT_CONN_PARAM_UPDATE_REQUEST:
+        {
+            ble_gap_conn_params_t const * params =
+                &p_ble_evt->evt.gap_evt.params.conn_param_update_request.conn_params;
+            NRF_LOG_INFO("Conn param update request: min %u max %u lat %u sup_to %u",
+                         params->min_conn_interval,
+                         params->max_conn_interval,
+                         params->slave_latency,
+                         params->conn_sup_timeout);
+            err_code = sd_ble_gap_conn_param_update(p_ble_evt->evt.gap_evt.conn_handle,
+                                                    params);
+            APP_ERROR_CHECK(err_code);
+        } break;
+
 
         case BLE_GAP_EVT_CONN_PARAM_UPDATE:
         {
@@ -259,16 +274,121 @@ void log_softdevice_version(void)
 
 
 
+static void test_hfclk(void)
+{
+    // Check if HFCLK is running from external crystal
+    uint32_t hfclk_is_running = 0;
+    uint32_t hfclk_src = 0;
+    
+    // Wait a bit for clock to stabilize after request
+    nrf_delay_ms(10);
+    
+    // Check HFCLK status
+    hfclk_is_running = NRF_CLOCK->HFCLKSTAT & CLOCK_HFCLKSTAT_STATE_Msk;
+    hfclk_src = NRF_CLOCK->HFCLKSTAT & CLOCK_HFCLKSTAT_SRC_Msk;
+    
+    if (hfclk_is_running)
+    {
+        if (hfclk_src == (CLOCK_HFCLKSTAT_SRC_Xtal << CLOCK_HFCLKSTAT_SRC_Pos))
+        {
+            NRF_LOG_INFO("HFCLK: Running from EXTERNAL CRYSTAL (Good!)");
+            // Flash LED to indicate crystal is working
+            bsp_board_led_on(0);
+            nrf_delay_ms(500);
+            bsp_board_led_off(0);
+        }
+        else
+        {
+            NRF_LOG_ERROR("HFCLK: Running from INTERNAL RC (Bad for BLE!)");
+            NRF_LOG_ERROR("Check your 32MHz crystal and capacitors!");
+            // Rapid LED flash to indicate problem
+            for (int i = 0; i < 10; i++)
+            {
+                bsp_board_led_invert(0);
+                nrf_delay_ms(100);
+            }
+        }
+    }
+    else
+    {
+        NRF_LOG_ERROR("HFCLK: NOT RUNNING AT ALL!");
+    }
+    
+}
+
+// Enhanced clock initialization with error checking
+static void clock_init_with_verification(void)
+{
+    ret_code_t err_code;
+    
+    // Initialize the clock driver
+    err_code = nrf_drv_clock_init();
+    if (err_code != NRF_SUCCESS && err_code != NRF_ERROR_MODULE_ALREADY_INITIALIZED)
+    {
+        NRF_LOG_ERROR("Clock init failed: 0x%02X", err_code);
+        APP_ERROR_CHECK(err_code);
+    }
+    
+    // Request both clocks with callbacks to know when they're ready
+    static nrf_drv_clock_handler_item_t hfclk_handler_item = {0};
+    static nrf_drv_clock_handler_item_t lfclk_handler_item = {0};
+    
+    // HFCLK callback
+    hfclk_handler_item.event_handler = [](nrf_drv_clock_evt_type_t event) {
+        if (event == NRF_DRV_CLOCK_EVT_HFCLK_STARTED)
+        {
+            NRF_LOG_INFO("HFCLK started successfully");
+        }
+    };
+    
+    // LFCLK callback  
+    lfclk_handler_item.event_handler = [](nrf_drv_clock_evt_type_t event) {
+        if (event == NRF_DRV_CLOCK_EVT_LFCLK_STARTED)
+        {
+            NRF_LOG_INFO("LFCLK started successfully");
+        }
+    };
+    
+    // Request clocks
+    nrf_drv_clock_hfclk_request(&hfclk_handler_item);
+    nrf_drv_clock_lfclk_request(&lfclk_handler_item);
+    
+    // Wait for clocks to start
+    while (!nrf_drv_clock_hfclk_is_running() || !nrf_drv_clock_lfclk_is_running())
+    {
+        // Wait with timeout
+        static uint32_t timeout_counter = 0;
+        nrf_delay_ms(1);
+        timeout_counter++;
+        
+        if (timeout_counter > 1000) // 1 second timeout
+        {
+            NRF_LOG_ERROR("Clock startup timeout!");
+            if (!nrf_drv_clock_hfclk_is_running())
+            {
+                NRF_LOG_ERROR("HFCLK failed to start - check 32MHz crystal!");
+            }
+            if (!nrf_drv_clock_lfclk_is_running())
+            {
+                NRF_LOG_ERROR("LFCLK failed to start - check 32.768kHz crystal!");
+            }
+            break;
+        }
+    }
+    
+    // Run the crystal test
+    test_hfclk();
+}
+
+
+
 int main(void)
 {
     ret_code_t err_code;
     ret_code_t err;
 
     // Initialize the clock driver for EasyDMA peripherals
-    err = nrf_drv_clock_init();
-    APP_ERROR_CHECK(err);
-    nrf_drv_clock_hfclk_request(NULL);
-    nrf_drv_clock_lfclk_request(NULL);
+    clock_init_with_verification();
     
     // Initialize logging.
     err_code = NRF_LOG_INIT(NULL);
@@ -284,7 +404,7 @@ int main(void)
     // Initialize the scanning of addresses available on I2C bus. 
     //scan_i2c_bus();
 
-
+   
 
 
     
