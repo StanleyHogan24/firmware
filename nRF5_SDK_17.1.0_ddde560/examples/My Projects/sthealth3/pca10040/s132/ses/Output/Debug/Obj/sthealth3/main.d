@@ -87,10 +87,10 @@ Output/Debug/Obj/sthealth3/main.o: \
  /Applications/SEGGER/SEGGER\ Embedded\ Studio\ 8.18/include/stdlib.h \
  ../../../../../../components/libraries/balloc/nrf_balloc.h \
  ../../../../../../components/libraries/log/nrf_log_default_backends.h \
- ../../../../../../components/softdevice/common/nrf_sdh.h \
+ ../../../../../../components/libraries/pwr_mgmt/nrf_pwr_mgmt.h \
  ../../../../../../components/libraries/experimental_section_vars/nrf_section_iter.h \
  ../../../../../../components/libraries/experimental_section_vars/nrf_section.h \
- ../../../../../../components/softdevice/common/nrf_sdh_ble.h \
+ ../../../../../../components/ble/nrf_ble_gatt/nrf_ble_gatt.h \
  ../../../../../../components/softdevice/s132/headers/ble.h \
  ../../../../../../components/softdevice/s132/headers/ble_err.h \
  ../../../../../../components/softdevice/s132/headers/ble_gap.h \
@@ -101,15 +101,18 @@ Output/Debug/Obj/sthealth3/main.o: \
  ../../../../../../components/softdevice/s132/headers/ble_gatt.h \
  ../../../../../../components/softdevice/s132/headers/ble_gattc.h \
  ../../../../../../components/softdevice/s132/headers/ble_gatts.h \
+ ../../../../../../components/softdevice/s132/headers/ble_gatt.h \
+ ../../../../../../components/ble/nrf_ble_qwr/nrf_ble_qwr.h \
+ ../../../../../../components/ble/common/ble_srv_common.h \
+ ../../../../../../components/softdevice/s132/headers/ble_types.h \
  ../../../../../../components/softdevice/s132/headers/ble_gap.h \
+ ../../../../../../components/softdevice/common/nrf_sdh.h \
+ ../../../../../../components/softdevice/common/nrf_sdh_ble.h \
  ../../../../../../components/ble/common/ble_advdata.h \
  ../../../../../../components/ble/common/ble_conn_params.h \
  ../../../../../../components/ble/common/ble_srv_common.h \
- ../../../../../../components/softdevice/s132/headers/ble_types.h \
- ../../../../../../components/softdevice/s132/headers/ble_gatt.h \
  ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/heart_rate.h \
  ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/bpm_service.h \
- ../../../../../../components/ble/common/ble_srv_common.h \
  ../../../../../../components/max30101/max30101.h \
  ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/accel.h \
  ../../../../../../examples/My\ Projects/sthealth3/pca10040/s132/ses/steps.h \

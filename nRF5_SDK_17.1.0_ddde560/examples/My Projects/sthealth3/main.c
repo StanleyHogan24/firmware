@@ -9,6 +9,9 @@
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
+#include "nrf_pwr_mgmt.h"
+#include "nrf_ble_gatt.h"
+#include "nrf_ble_qwr.h"
 
 // SoftDevice and BLE includes
 #include "nrf_sdh.h"
@@ -31,29 +34,66 @@
 #define APP_BLE_CONN_CFG_TAG 1
 #define DEVICE_NAME          "sthealth"    // Advertised device name.
 #define MS_PER_SAMPLE        10            // 100 Hz sampling (10 ms per sample).
+#define MIN_CONN_INTERVAL    MSEC_TO_UNITS(100, UNIT_1_25_MS)
+#define MAX_CONN_INTERVAL    MSEC_TO_UNITS(100, UNIT_1_25_MS)
+#define SLAVE_LATENCY        0
+#define CONN_SUP_TIMEOUT     MSEC_TO_UNITS(2000, UNIT_10_MS)
+
+
+NRF_BLE_QWR_DEF(m_qwr);
+NRF_BLE_GATT_DEF(m_gatt);
 
 extern void scan_i2c_bus(void);
 
-static ble_bpm_service_t m_bpm_service;       // Instance of our custom BPM service.
-static uint16_t          m_conn_handle = BLE_CONN_HANDLE_INVALID;
-static ble_gap_adv_params_t m_adv_params;     // Advertising parameters.
+static ble_bpm_service_t                 m_bpm_service;                             // Instance of our custom BPM service.
+static uint16_t                          m_conn_handle = BLE_CONN_HANDLE_INVALID;
+static ble_gap_adv_params_t              m_adv_params;                            // Advertising parameters.
+static ble_gap_conn_params_t             m_gap_conn_params;
+static ble_gap_conn_sec_mode_t           sec_mode;
 
 // Globals for advertising using the new API:
 static uint8_t m_adv_handle = BLE_GAP_ADV_SET_HANDLE_NOT_SET;
 static uint8_t m_encoded_advdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
 static uint8_t m_encoded_scanrspdata[BLE_GAP_ADV_SET_DATA_SIZE_MAX];
 
-// Define connection parameters for a 30 ms interval
-// Since connection intervals are in units of 1.25 ms, 30 ms equals 24 units.
-static ble_gap_conn_params_t m_gap_conn_params =
-{
-    .min_conn_interval = 16,                      // 20 ms connection interval (16 * 1.25 ms)
-    .max_conn_interval = 60,                      // 75 ms connection interval (60 * 1.25 ms)
-    .slave_latency     = 0,                      // No slave latency
-    .conn_sup_timeout  = MSEC_TO_UNITS(4000, UNIT_10_MS)  // 4000 ms supervision timeout
-};
 
-// UUID type used for the Heart Rate service.
+static void power_management_init(void)
+{
+  ret_code_t err_code = nrf_pwr_mgmt_init();
+  APP_ERROR_CHECK(err_code);
+}
+
+// GAP INITIALIZATION
+static void gap_params_init(void)
+{
+    ret_code_t err_code;
+    
+
+
+    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
+    
+    err_code = sd_ble_gap_device_name_set(&sec_mode,(const uint8_t *)DEVICE_NAME, strlen(DEVICE_NAME));
+    APP_ERROR_CHECK(err_code);
+
+    memset(&m_gap_conn_params, 0, sizeof(m_gap_conn_params));
+
+    m_gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
+    m_gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
+    m_gap_conn_params.slave_latency = SLAVE_LATENCY;
+    m_gap_conn_params.conn_sup_timeout = CONN_SUP_TIMEOUT;
+
+    err_code = sd_ble_gap_ppcp_set(&m_gap_conn_params);
+    APP_ERROR_CHECK(err_code);
+}
+
+static void gatt_init(void)
+{
+  ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
+  APP_ERROR_CHECK(err_code);
+
+}
+
+//    type used for the Heart Rate service.
 uint8_t m_bpm_uuid_type;
 
 // Vendor-specific base UUID registration.
@@ -159,18 +199,7 @@ static void ble_stack_init(void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, 3, ble_evt_handler, NULL);
 }
 
-// Set the device name to "sthealth".
-static void device_name_init(void)
-{
-    ret_code_t err_code;
-    ble_gap_conn_sec_mode_t sec_mode;
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN(&sec_mode);
-    
-    err_code = sd_ble_gap_device_name_set(&sec_mode,
-                                          (const uint8_t *)DEVICE_NAME,
-                                          strlen(DEVICE_NAME));
-    APP_ERROR_CHECK(err_code);
-}
+
 
 // Initialize advertising data and parameters using the new API.
 static void advertising_init(void)
@@ -185,14 +214,16 @@ static void advertising_init(void)
     m_adv_params.interval        = MSEC_TO_UNITS(100, UNIT_0_625_MS);
     m_adv_params.duration        = 0; // Advertise indefinitely.
     
+    
     // Set up advertising data.
     ble_advdata_t advdata;
     memset(&advdata, 0, sizeof(advdata));
     advdata.name_type = BLE_ADVDATA_FULL_NAME;
-    advdata.include_appearance = false;
+    advdata.include_appearance = true;
     advdata.flags = BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
     
-    // Create an array with your custom service UUID.
+    
+    /* Create an array with your custom service UUID.
     ble_uuid_t adv_uuid;
     adv_uuid.type = m_bpm_uuid_type;
     adv_uuid.uuid = BLE_UUID_BPM_SERVICE;
@@ -202,7 +233,7 @@ static void advertising_init(void)
     
     uint16_t advdata_len = sizeof(m_encoded_advdata);
     err_code = ble_advdata_encode(&advdata, m_encoded_advdata, &advdata_len);
-    APP_ERROR_CHECK(err_code);
+    APP_ERROR_CHECK(err_code); 
     
     // No scan response data.
     uint16_t scanrsp_len = 0;
@@ -214,10 +245,14 @@ static void advertising_init(void)
     adv_data.adv_data.len    = advdata_len;
     adv_data.scan_rsp_data.p_data = NULL;
     adv_data.scan_rsp_data.len = 0;
+
+    */
     
     // Configure the advertising set.
-        err_code = sd_ble_gap_adv_set_configure(&m_adv_handle, &adv_data, &m_adv_params);
+    err_code = sd_ble_gap_adv_set_configure(&m_adv_handle, &adv_data, &m_adv_params);
     APP_ERROR_CHECK(err_code);
+
+    err_code = ble_advertising_init(&m_adv_handle, const ble_advertising_init_t *const p_init)
 }
 
 // Handle errors from the connection parameters module.
@@ -255,21 +290,6 @@ static void advertising_start(void)
     err_code = sd_ble_gap_adv_start(m_adv_handle, APP_BLE_CONN_CFG_TAG);
     APP_ERROR_CHECK(err_code);
     NRF_LOG_INFO("Advertising started.");
-}
-
-void log_softdevice_version(void)
-{
-    #if defined(SOFTDEVICE_PRESENT)
-        #if defined(S132)
-            NRF_LOG_INFO("SoftDevice s132 is being used.");
-        #elif defined(S140)
-            NRF_LOG_INFO("SoftDevice s140 is being used.");
-        #else
-            NRF_LOG_INFO("Other SoftDevice detected.");
-        #endif
-    #else
-        NRF_LOG_INFO("No SoftDevice present.");
-    #endif
 }
 
 
@@ -316,6 +336,23 @@ static void test_hfclk(void)
     
 }
 
+// Handlers for HFCLK and LFCLK start events
+static void hfclk_started_handler(nrf_drv_clock_evt_type_t event)
+{
+    if (event == NRF_DRV_CLOCK_EVT_HFCLK_STARTED)
+    {
+        NRF_LOG_INFO("HFCLK started successfully");
+    }
+}
+
+static void lfclk_started_handler(nrf_drv_clock_evt_type_t event)
+{
+    if (event == NRF_DRV_CLOCK_EVT_LFCLK_STARTED)
+    {
+        NRF_LOG_INFO("LFCLK started successfully");
+    }
+}
+
 // Enhanced clock initialization with error checking
 static void clock_init_with_verification(void)
 {
@@ -333,21 +370,9 @@ static void clock_init_with_verification(void)
     static nrf_drv_clock_handler_item_t hfclk_handler_item = {0};
     static nrf_drv_clock_handler_item_t lfclk_handler_item = {0};
     
-    // HFCLK callback
-    hfclk_handler_item.event_handler = [](nrf_drv_clock_evt_type_t event) {
-        if (event == NRF_DRV_CLOCK_EVT_HFCLK_STARTED)
-        {
-            NRF_LOG_INFO("HFCLK started successfully");
-        }
-    };
-    
-    // LFCLK callback  
-    lfclk_handler_item.event_handler = [](nrf_drv_clock_evt_type_t event) {
-        if (event == NRF_DRV_CLOCK_EVT_LFCLK_STARTED)
-        {
-            NRF_LOG_INFO("LFCLK started successfully");
-        }
-    };
+    // Assign Callbacks
+    hfclk_handler_item.event_handler = hfclk_started_handler;
+    lfclk_handler_item.event_handler = lfclk_started_handler;
     
     // Request clocks
     nrf_drv_clock_hfclk_request(&hfclk_handler_item);
@@ -398,7 +423,38 @@ int main(void)
     // Initialize board support (PCA10040).
     bsp_board_init(BSP_INIT_LEDS | BSP_INIT_BUTTONS);
 
-    // Initialize the shared TWI (I2C) interface used by all sensors.
+    // Initialize app_timer library.
+    err_code = app_timer_init();
+    APP_ERROR_CHECK(err_code);
+
+    nrf_pwr_mgmt_init();
+
+
+    //Initialize BLE stack
+    ble_stack_init();
+
+    
+    // Initialize vendor-specific UUID.
+    //custom_uuid_init();
+    
+   
+    gap_params_init();
+
+    gatt_init();
+
+    advertising_init();
+   
+    
+    // Initialize Heart Rate service (BPM).
+    bpm_service_init(&m_bpm_service);
+
+    conn_params_init();
+    
+    // Start advertising.
+    advertising_start();
+
+
+        // Initialize the shared TWI (I2C) interface used by all sensors.
     twi_master_init();
 
     // Initialize the scanning of addresses available on I2C bus. 
@@ -430,33 +486,11 @@ int main(void)
     NRF_LOG_DEBUG("gps_uart_init() returned: 0x%08X", err);
     
 
-     // Initialize app_timer library.
-    err_code = app_timer_init();
-    APP_ERROR_CHECK(err_code);
+   
 
     uint32_t red_led = 0, ir_led = 0, green_led=0;
 
- //COMMENTING OUT BLUETOOTH INITIALIZATION FOR NOW... 
-
-    //Initialize BLE stack
-    ble_stack_init();
-    sd_ble_gap_ppcp_set(&m_gap_conn_params);
-
     
-    // Initialize vendor-specific UUID.
-    custom_uuid_init();
-    
-    // Initialize device name, and advertising.
-   
-    device_name_init();
-    advertising_init();
-    conn_params_init();
-    
-    // Initialize Heart Rate service (BPM).
-    bpm_service_init(&m_bpm_service);
-    
-    // Start advertising.
-    advertising_start();
 
     
     // Initialize Algorithms.

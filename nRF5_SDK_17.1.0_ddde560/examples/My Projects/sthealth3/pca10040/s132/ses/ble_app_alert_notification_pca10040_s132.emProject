@@ -219,6 +219,7 @@
     <folder Name="UTF8/UTF16 converter">
       <file file_name="../../../../../../external/utf_converter/utf.c" />
     </folder>
+    <file file_name="main_dev.c" />
     <file file_name="../../../README.txt" />
   </project>
 </solution>
